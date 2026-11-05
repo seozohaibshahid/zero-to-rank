@@ -47,12 +47,11 @@
 
 /* Live indicators ---------------------------------------------------------- */
 @keyframes ztr-pulse {
-	0%   { box-shadow: 0 0 0 0 rgba(185, 241, 47, 0.6); }
-	70%  { box-shadow: 0 0 0 10px rgba(185, 241, 47, 0); }
-	100% { box-shadow: 0 0 0 0 rgba(185, 241, 47, 0); }
+	0%   { box-shadow: 0 0 0 0 rgba(88, 246, 177, 0.6); }
+	70%  { box-shadow: 0 0 0 10px rgba(88, 246, 177, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(88, 246, 177, 0); }
 }
-.ztr-pill__dot,
-.ztr-eco__live i { animation: ztr-pulse 2.2s ease-out infinite; }
+
 
 @keyframes ztr-blink { 50% { opacity: 0; } }
 .ztr-eco__caret { animation: ztr-blink 1s steps(1) infinite; }
@@ -124,14 +123,7 @@
 	from { background-position: -200% 0; }
 	to   { background-position: 200% 0; }
 }
-.ztr-shift__answer-line {
-	background-image: linear-gradient(90deg, rgba(242, 240, 233, 0.18) 0%, rgba(242, 240, 233, 0.45) 50%, rgba(242, 240, 233, 0.18) 100%);
-	background-size: 200% 100%;
-	animation-name: ztr-rise, ztr-shimmer !important;
-	animation-duration: 0.6s, 2.4s !important;
-	animation-iteration-count: 1, infinite !important;
-	animation-timing-function: var(--ztr-ease), linear !important;
-}
+
 
 /* Service visuals animate only on the open card (so motion = focus) */
 @keyframes ztr-grow { from { transform: scaleY(0.2); } to { transform: scaleY(1); } }
@@ -150,7 +142,7 @@
 .ztr-svc__card.is-open .ztr-viz-answer i:nth-child(3) { animation-delay: 0.16s; }
 .ztr-svc__card.is-open .ztr-viz-answer b { transform-origin: left; animation: ztr-highlight 2.4s var(--ztr-ease-in-out) 0.4s infinite; }
 .ztr-svc__card.is-open .ztr-viz-orbit i { animation: ztr-orbit 9s linear infinite; }
-.ztr-svc__card.is-open .ztr-viz-orbit b { animation: ztr-pulse 2.2s ease-out infinite; }
+
 
 /* Industry panel switch */
 .ztr-ind__panel:not([hidden]) { animation: ztr-rise 0.6s var(--ztr-ease) both; }

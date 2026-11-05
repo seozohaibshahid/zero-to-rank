@@ -368,6 +368,15 @@
 		if (!target) {
 			return;
 		}
+		// Links to a tab panel (e.g. a case study) open that tab first and
+		// scroll to the tab group so the tabs stay in view.
+		if (target.hasAttribute('data-ztr-panel')) {
+			var tab = root.querySelector('[data-ztr-tab][aria-controls="' + id + '"]');
+			if (tab) {
+				tab.click();
+				target = target.closest('section') || target;
+			}
+		}
 		e.preventDefault();
 		var behavior = ZTR.reduced() ? 'auto' : 'smooth';
 		if (id === 'ztr-top') {

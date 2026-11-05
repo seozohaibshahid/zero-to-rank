@@ -10,8 +10,8 @@
  *     } );
  *
  * Content rule: no fabricated testimonials, client logos, rankings or
- * performance statistics. Real case studies can be added through
- * `$c['results']['case_studies']` once a client has approved publication.
+ * performance statistics. Case studies in `$c['results']['cases']` use real
+ * client reports, with the screenshots shipped as evidence.
  *
  * @package ZeroToRank
  */
@@ -65,31 +65,12 @@ function ztr_default_content() {
 			'lead_strong'   => __( 'From zero to everywhere.', 'zero-to-rank' ),
 			'lead'          => __( 'We help ambitious businesses grow through SEO, Answer Engine Optimization and Generative Engine Optimization.', 'zero-to-rank' ),
 			'primary_cta'   => __( 'Get your free visibility audit', 'zero-to-rank' ),
-			'secondary_cta' => __( 'Explore our services', 'zero-to-rank' ),
-			'panel_label'   => __( 'Your search visibility ecosystem', 'zero-to-rank' ),
-			'tagline'       => __( 'One strategy. Three visibility channels.', 'zero-to-rank' ),
-			'channels'      => array(
-				array(
-					'key'     => 'seo',
-					'abbr'    => 'SEO',
-					'label'   => __( 'Search engines', 'zero-to-rank' ),
-					'query'   => __( 'commercial cleaning company near me', 'zero-to-rank' ),
-					'outcome' => __( 'Ranked in organic results', 'zero-to-rank' ),
-				),
-				array(
-					'key'     => 'aeo',
-					'abbr'    => 'AEO',
-					'label'   => __( 'Answer engines', 'zero-to-rank' ),
-					'query'   => __( 'how often should an office be deep cleaned?', 'zero-to-rank' ),
-					'outcome' => __( 'Chosen as the direct answer', 'zero-to-rank' ),
-				),
-				array(
-					'key'     => 'geo',
-					'abbr'    => 'GEO',
-					'label'   => __( 'AI discovery', 'zero-to-rank' ),
-					'query'   => __( 'Which cleaning companies are most reliable for offices?', 'zero-to-rank' ),
-					'outcome' => __( 'Recommended and cited by AI', 'zero-to-rank' ),
-				),
+			'secondary_cta' => __( 'See client results', 'zero-to-rank' ),
+			/* Real results shown under the hero; each links to its case study. */
+			'proof'         => array(
+				array( 'value' => '+144%', 'label' => __( 'search clicks in 6 months', 'zero-to-rank' ), 'who' => __( 'International B2B', 'zero-to-rank' ), 'href' => '#ztr-case-international' ),
+				array( 'value' => '16.8K', 'label' => __( 'clicks from a near-standing start', 'zero-to-rank' ), 'who' => __( 'Industrial manufacturer', 'zero-to-rank' ), 'href' => '#ztr-case-industrial' ),
+				array( 'value' => '322K', 'label' => __( 'impressions in Google AI features', 'zero-to-rank' ), 'who' => __( 'Real estate · Canada', 'zero-to-rank' ), 'href' => '#ztr-case-realestate' ),
 			),
 		),
 
@@ -113,49 +94,88 @@ function ztr_default_content() {
 			'text'    => __( 'Your buyers don’t search once any more. They ask Google, check the map, then ask an AI assistant to compare. At every one of those moments there is a single answer — <em>we make sure it is you.</em>', 'zero-to-rank' ),
 		),
 
-		/* 04 — Results: how progress is measured. */
+		/*
+		 * 04 — Results: real case studies, taken from the clients' own Google
+		 * Search Console and GA4 reports. Every figure below is shown in the
+		 * attached screenshot ('evidence'). Clients are described, not named.
+		 * Images live in assets/images/cases/ (or pass full URLs).
+		 */
 		'results'    => array(
-			'eyebrow'      => __( 'Results', 'zero-to-rank' ),
-			'title'        => __( 'Measured by outcomes, <em>not vanity metrics.</em>', 'zero-to-rank' ),
-			'intro'        => __( 'Every engagement is tied to a reporting view you can check at any time. These are the signals we track and report on — from first visibility to qualified pipeline.', 'zero-to-rank' ),
-			'note'         => __( 'Charts show an illustrative reporting layout, not client data. Client case studies are published only with written permission.', 'zero-to-rank' ),
-			/*
-			 * Real, approved case studies. Each item:
-			 * array( 'client' => '', 'sector' => '', 'summary' => '', 'metrics' => array( array( 'value' => '+120%', 'label' => '' ) ), 'url' => '' )
-			 */
-			'case_studies' => array(),
-			'metrics'      => array(
+			'eyebrow' => __( 'Case studies', 'zero-to-rank' ),
+			'title'   => __( 'Real results, <em>straight from the reports.</em>', 'zero-to-rank' ),
+			'intro'   => __( 'Three live engagements. Every number on this page comes from the client’s own Google Search Console or GA4 — the screenshots are right there to check.', 'zero-to-rank' ),
+			'note'    => __( 'Client names are withheld. Figures are as reported by Google Search Console and Google Analytics 4 for the periods shown; past results do not guarantee future rankings.', 'zero-to-rank' ),
+			'cases'   => array(
 				array(
-					'key'     => 'organic',
-					'channel' => 'SEO',
-					'title'   => __( 'Organic visibility', 'zero-to-rank' ),
-					'desc'    => __( 'Rankings, impressions and non-branded clicks for the queries that bring in buyers — not just traffic.', 'zero-to-rank' ),
-					'signals' => array( __( 'Priority keyword positions', 'zero-to-rank' ), __( 'Search Console impressions & clicks', 'zero-to-rank' ), __( 'Indexed, healthy pages', 'zero-to-rank' ) ),
-					'curve'   => 'M0,150 C60,148 90,140 130,128 C180,112 210,118 250,96 C300,70 330,74 380,52 C420,36 450,30 500,18',
+					'key'      => 'international',
+					'tab'      => __( 'International B2B', 'zero-to-rank' ),
+					'sector'   => __( 'B2B services brand · multiple countries', 'zero-to-rank' ),
+					'period'   => __( 'Last 6 months vs the previous 6 months', 'zero-to-rank' ),
+					'headline' => __( 'Clicks up 144% in six months, while impressions in Google’s AI features keep climbing.', 'zero-to-rank' ),
+					'metrics'  => array(
+						array( 'value' => '+144%', 'label' => __( 'Search clicks', 'zero-to-rank' ), 'detail' => __( '4.47K vs 1.83K', 'zero-to-rank' ) ),
+						array( 'value' => '+249%', 'label' => __( 'Search impressions', 'zero-to-rank' ), 'detail' => __( '219K vs 62.8K', 'zero-to-rank' ) ),
+						array( 'value' => '30.4K', 'label' => __( 'Impressions in Google AI features', 'zero-to-rank' ), 'detail' => __( 'Last 6 months', 'zero-to-rank' ) ),
+						array( 'value' => '10.5', 'label' => __( 'Average position', 'zero-to-rank' ), 'detail' => __( 'Up from 11.2', 'zero-to-rank' ) ),
+					),
+					'sources'  => array(),
+					'footnote' => __( 'CTR moved from 2.9% to 2.0% because impressions grew faster than clicks.', 'zero-to-rank' ),
+					'evidence' => array(
+						array( 'src' => 'images/cases/intl-search-compare.webp', 'w' => 1460, 'h' => 545, 'caption' => __( 'Search Console · Performance, last 6 months vs previous 6 months', 'zero-to-rank' ) ),
+						array( 'src' => 'images/cases/intl-ai-impressions.webp', 'w' => 1410, 'h' => 520, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
+					),
 				),
 				array(
-					'key'     => 'answers',
-					'channel' => 'AEO',
-					'title'   => __( 'Answer share', 'zero-to-rank' ),
-					'desc'    => __( 'How often your content is selected as the direct answer — featured snippets, People Also Ask and voice results.', 'zero-to-rank' ),
-					'signals' => array( __( 'Featured snippet ownership', 'zero-to-rank' ), __( 'People Also Ask presence', 'zero-to-rank' ), __( 'Question-cluster coverage', 'zero-to-rank' ) ),
-					'curve'   => 'M0,152 C50,150 80,146 120,140 C160,134 190,110 230,104 C280,96 300,72 350,64 C400,56 440,40 500,30',
+					'key'      => 'industrial',
+					'tab'      => __( 'Industrial manufacturer', 'zero-to-rank' ),
+					'sector'   => __( 'Industrial air treatment systems', 'zero-to-rank' ),
+					'period'   => __( '16 months of Search Console data', 'zero-to-rank' ),
+					'headline' => __( 'From a near-standing start to 16.8K clicks — and visitors now arrive from AI assistants.', 'zero-to-rank' ),
+					'metrics'  => array(
+						array( 'value' => '16.8K', 'label' => __( 'Search clicks', 'zero-to-rank' ), 'detail' => __( '16 months · 3.8% CTR', 'zero-to-rank' ) ),
+						array( 'value' => '446K', 'label' => __( 'Search impressions', 'zero-to-rank' ), 'detail' => __( '16 months', 'zero-to-rank' ) ),
+						array( 'value' => '22K', 'label' => __( 'Impressions in Google AI features', 'zero-to-rank' ), 'detail' => __( 'Last 6 months', 'zero-to-rank' ) ),
+						array( 'value' => '180', 'label' => __( 'Sessions from AI assistants', 'zero-to-rank' ), 'detail' => __( 'GA4 · 65% engaged', 'zero-to-rank' ) ),
+					),
+					'sources'  => array(
+						array( 'name' => 'Gemini', 'value' => 63 ),
+						array( 'name' => 'ChatGPT', 'value' => 46 ),
+						array( 'name' => 'Claude', 'value' => 45 ),
+						array( 'name' => 'Copilot', 'value' => 11 ),
+						array( 'name' => 'Perplexity', 'value' => 5 ),
+					),
+					'footnote' => __( 'The highlighted area marks the engagement period.', 'zero-to-rank' ),
+					'evidence' => array(
+						array( 'src' => 'images/cases/industrial-search-16m.webp', 'w' => 1465, 'h' => 490, 'caption' => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ) ),
+						array( 'src' => 'images/cases/industrial-ai-impressions.webp', 'w' => 1455, 'h' => 500, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
+						array( 'src' => 'images/cases/industrial-ai-traffic.webp', 'w' => 1485, 'h' => 605, 'caption' => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ) ),
+					),
 				),
 				array(
-					'key'     => 'citations',
-					'channel' => 'GEO',
-					'title'   => __( 'AI citations & mentions', 'zero-to-rank' ),
-					'desc'    => __( 'Whether AI assistants mention, recommend and cite your brand when buyers ask about your category.', 'zero-to-rank' ),
-					'signals' => array( __( 'Brand mentions in AI answers', 'zero-to-rank' ), __( 'Citations to your pages', 'zero-to-rank' ), __( 'Share of voice vs competitors', 'zero-to-rank' ) ),
-					'curve'   => 'M0,154 C70,153 110,150 150,144 C190,138 220,124 260,108 C300,92 340,70 380,58 C430,44 460,34 500,24',
-				),
-				array(
-					'key'     => 'pipeline',
-					'channel' => __( 'Revenue', 'zero-to-rank' ),
-					'title'   => __( 'Qualified pipeline', 'zero-to-rank' ),
-					'desc'    => __( 'Enquiries, calls and sales attributed to search and AI discovery — the number that actually matters.', 'zero-to-rank' ),
-					'signals' => array( __( 'Tracked form & call conversions', 'zero-to-rank' ), __( 'Lead quality by landing page', 'zero-to-rank' ), __( 'Assisted conversions from search', 'zero-to-rank' ) ),
-					'curve'   => 'M0,150 C60,149 100,144 140,136 C190,126 220,128 260,112 C300,96 330,92 370,72 C420,50 460,38 500,26',
+					'key'      => 'realestate',
+					'tab'      => __( 'Real estate · Canada', 'zero-to-rank' ),
+					'sector'   => __( 'Real estate · Canada', 'zero-to-rank' ),
+					'period'   => __( '16 months of Search Console data', 'zero-to-rank' ),
+					'headline' => __( '3.28M search impressions, and AI-assistant visitors who take action.', 'zero-to-rank' ),
+					'metrics'  => array(
+						array( 'value' => '3.28M', 'label' => __( 'Search impressions', 'zero-to-rank' ), 'detail' => __( '16 months · 6.57K clicks', 'zero-to-rank' ) ),
+						array( 'value' => '322K', 'label' => __( 'Impressions in Google AI features', 'zero-to-rank' ), 'detail' => __( 'Last 6 months', 'zero-to-rank' ) ),
+						array( 'value' => '514', 'label' => __( 'Sessions from AI assistants', 'zero-to-rank' ), 'detail' => __( 'GA4 · 82.9% engaged', 'zero-to-rank' ) ),
+						array( 'value' => '1,797', 'label' => __( 'Key events from those sessions', 'zero-to-rank' ), 'detail' => __( '85.6% session key event rate', 'zero-to-rank' ) ),
+					),
+					'sources'  => array(
+						array( 'name' => 'ChatGPT', 'value' => 403 ),
+						array( 'name' => 'Gemini', 'value' => 54 ),
+						array( 'name' => 'Claude', 'value' => 21 ),
+						array( 'name' => 'Perplexity', 'value' => 17 ),
+						array( 'name' => 'Copilot', 'value' => 6 ),
+					),
+					'footnote' => '',
+					'evidence' => array(
+						array( 'src' => 'images/cases/realestate-search-16m.webp', 'w' => 1460, 'h' => 485, 'caption' => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ) ),
+						array( 'src' => 'images/cases/realestate-ai-impressions.webp', 'w' => 1460, 'h' => 490, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
+						array( 'src' => 'images/cases/realestate-ai-traffic.webp', 'w' => 1495, 'h' => 670, 'caption' => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ) ),
+					),
 				),
 			),
 		),

@@ -32,3 +32,12 @@ The reference sites were used only to study their visual language. Nothing was c
 
 All of this is skipped under `prefers-reduced-motion`, and the page reads fully without JavaScript.
 Lighthouse (mobile, local): Performance 98, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
+
+## v1.2: cleaner, proof-led
+
+Feedback: the page still read as "AI-made", and it needed real proof.
+
+- New palette: Ink `#010102`, Lavender `#AD96F1`, Mint `#58F6B1`. The whole page now sits on the ink base, and the inset panels are a slightly lifted surface.
+- Removed the "AI look": the animated fake search panel in the hero, glows, the grid backdrop, pulsing dots, shimmering placeholder lines, the typing caret and the illustrative chart.
+- Centred hero in the style of the references, with three real results underneath that open the matching case study.
+- Case studies replace the illustrative dashboard. Each one shows its headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence. Client names are withheld.

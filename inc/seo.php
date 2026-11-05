@@ -99,7 +99,7 @@ add_action(
 			printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $image ) );
 		}
 		printf( '<meta name="twitter:card" content="%s">' . "\n", $image ? 'summary_large_image' : 'summary' );
-		printf( '<meta name="theme-color" content="#0B3048">' . "\n" );
+		printf( '<meta name="theme-color" content="#010102">' . "\n" );
 		echo "<!-- / Zero to Rank SEO -->\n";
 	},
 	2

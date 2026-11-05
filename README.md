@@ -12,10 +12,10 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 | # | Section | Interaction |
 |---|---------|-------------|
 | 01 | Navigation | Desktop: links in a centred glass capsule with a sliding indicator (follows hover/focus, rests on the section in view); on scroll the bar condenses into one floating capsule. Hides on scroll-down / returns on scroll-up. Full-screen mobile menu (Esc to close) |
-| 02 | Hero | CSS-only headline intro (fast LCP). As you scroll past, the hero recedes into an inset, rounded panel. Animated **visibility ecosystem**: the same business ranks #1 (SEO), becomes the featured answer (AEO) and gets cited by AI (GEO). Accessible tabs with a visible auto-advance timer that pauses on hover/focus/off-screen and stops for good once the visitor takes control |
+| 02 | Hero | Centred headline with a CSS-only intro (fast LCP), two CTAs and a strip of three real client results that open the matching case study. As you scroll past, the hero recedes into an inset panel |
 | 03 | Trust bar | Channels we optimise for (marquee, pauses on hover/off-screen) + verifiable working principles. **No client logos** |
 | — | Statement | A point-of-view line that fills in word by word as it scrolls through the viewport (plain, fully legible text without JS or with reduced motion). Edit `$c['statement']` |
-| 04 | Results | Interactive reporting cards drive one chart (line draws on select). Labelled *Illustrative*. Real, approved case studies render automatically when added |
+| 04 | Case studies | Three real engagements (international B2B, industrial manufacturer, Canadian real estate) as tabs: headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence (open full size). Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
 | 05 | The visibility shift | Traditional search vs AI-driven discovery toggle — journey, result surface and "what earns visibility" all change together. Plays once on first view, then hands control to the visitor |
 | 06 | Services | SEO / AEO / GEO cards expand on hover/focus (desktop) or tap (mobile accordion); each has its own animated visual. CTAs pre-select the audit focus |
 | 07 | Why Zero to Rank | Scroll-triggered count-up metrics + differentiators |
@@ -26,7 +26,9 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 | 11 | FAQs | Native `<details>` accordion with smooth height animation; also output as FAQPage schema |
 | 12 | Footer | Final CTA, services/explore/contact columns, wordmark |
 
-Site-wide: section headings reveal word by word (blur → sharp); dark sections are inset, rounded "sheets" that settle into place as they enter; cards marked `data-ztr-spot` get a pointer-following lime spotlight, and `.ztr-brackets` adds the focus-bracket hover detail.
+Site-wide: section headings reveal word by word (blur → sharp); dark sections are inset, rounded "sheets" that settle into place as they enter; cards marked `data-ztr-spot` get a pointer-following mint spotlight, and `.ztr-brackets` adds the focus-bracket hover detail.
+
+**Palette:** Ink `#010102` (base), Lavender `#AD96F1` (headline accents, labels, bars), Mint `#58F6B1` (primary actions and growth figures), light text `#F4F2FA`. The CSS keeps its original token names (`--ztr-teal` = ink, `--ztr-pearl` = light text, `--ztr-lime` = mint) and adds `--ztr-violet`.
 
 Motion follows one rule: **it must explain, guide or confirm**. Everything respects
 `prefers-reduced-motion` (state changes stay, movement goes) and works without JavaScript.
@@ -151,7 +153,7 @@ The brief rules out fabricated claims. The copy avoids them, but these statement
 - *Why Zero to Rank* metrics: **3** channels · **5** stages · **90-day** roadmaps (`$c['why']['metrics']`).
 - The *Statement* line (`$c['statement']`) — opinion, not a claim, but it should sound like you.
 - Trust principles, FAQ answers on timelines, pricing and access, and the audit promise ("reviewed by a person").
-- The hero/visual uses the placeholder `yourbusiness.com` on purpose — it's a concept illustration, not a client.
+- Case studies: every figure must match its evidence screenshot; client names stay withheld unless you have written permission.
 
 ---
 
@@ -178,8 +180,9 @@ Events are pushed to `window.dataLayer` (GTM) and sent with `gtag()` when GA4 is
 | `cta_click` | Any CTA | `cta_location`, `cta_label`, `link_url` |
 | `contact_click` | Email / phone links | `cta_location`, `cta_label` |
 | `section_view` | Section ≥35% visible (once) | `section_name` |
-| `tab_select` | Hero channels, results, shift, industries | `component`, `tab_name` |
+| `tab_select` | Case studies, shift, industries | `component`, `tab_name` |
 | `service_expand` | First expand per service | `service_name` |
+| `evidence_open` | Case-study screenshot opened | `cta_location`, `cta_label` |
 | `faq_open` | FAQ opened | `faq_question` |
 | `form_start` | First keystroke in the form | `form_name` |
 | `form_error` | Validation / server / network error | `form_name`, `error_type` |

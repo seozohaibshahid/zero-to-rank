@@ -107,8 +107,8 @@ function ztr_icon( $name, $class = '' ) {
 function ztr_logo_mark( $class = '' ) {
 	return '<svg class="ztr-logo__mark ' . esc_attr( $class ) . '" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" focusable="false">'
 		. '<circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="4"/>'
-		. '<path d="M26 26 35 9" stroke="#B9F12F" stroke-width="4.5" stroke-linecap="round"/>'
-		. '<circle cx="35" cy="9" r="3.6" fill="#B9F12F"/>'
+		. '<path d="M26 26 35 9" stroke="#58F6B1" stroke-width="4.5" stroke-linecap="round"/>'
+		. '<circle cx="35" cy="9" r="3.6" fill="#58F6B1"/>'
 		. '</svg>';
 }
 
