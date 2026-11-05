@@ -197,7 +197,7 @@ Mark `generate_lead` as a **key event** in GA4.
 
 - No images on the critical path — all visuals are HTML/CSS/SVG. The LCP element is the hero headline, animated with CSS only (no JS wait).
 - Fonts self-hosted, `font-display: swap`, display and body fonts preloaded. Only Latin subsets ship.
-- All scripts load with `defer`. GSAP (~45 KB gzipped incl. ScrollTrigger) drives the scroll-linked and pointer effects; disable it with `add_filter( 'ztr_use_gsap', '__return_false' )` and reveals, count-ups, the ticker and the statement fill fall back to Intersection Observer / CSS. Lenis smooth scrolling (desktop only) can be turned off with `add_filter( 'ztr_use_lenis', '__return_false' )`.
+- All scripts load with `defer`. GSAP (~45 KB gzipped incl. ScrollTrigger) drives the scroll-linked and pointer effects; disable it with `add_filter( 'ztr_use_gsap', '__return_false' )` and reveals, count-ups, the ticker and the statement fill fall back to Intersection Observer / CSS. Lenis smooth scrolling (mouse wheel and trackpad; touch keeps native scrolling) can be turned off with `add_filter( 'ztr_use_lenis', '__return_false' )`.
 - Pointer effects (magnetic buttons, card tilt, custom cursor) only run on fine pointers.
 - Animations use `transform`/`opacity`; marquee and hero autoplay pause off-screen. No layout shift (CLS 0).
 - Semantic HTML5 landmarks, one `h1`, ordered `h2`/`h3` hierarchy, skip link, visible focus rings, WAI-ARIA tabs/radios with arrow-key support, `aria-live` status messages.

@@ -113,8 +113,10 @@
 	/* =====================================================================
 	 * Smooth scrolling (Lenis), driven by GSAP's ticker when present.
 	 * ================================================================== */
-	if (typeof window.Lenis !== 'undefined' && window.innerWidth > 960) {
-		var lenis = new window.Lenis({ duration: 1.15, smoothWheel: true });
+	// Wheel and trackpad scrolling glides to a stop at every width; touch
+	// keeps the device's native momentum scrolling.
+	if (typeof window.Lenis !== 'undefined') {
+		var lenis = new window.Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 1 });
 		ZTR.lenis = lenis;
 		if (hasGsap) {
 			lenis.on('scroll', ST.update);
