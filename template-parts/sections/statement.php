@@ -18,8 +18,8 @@ if ( empty( $c['text'] ) ) {
 ?>
 <section class="ztr-statement" aria-labelledby="ztr-statement-label" data-ztr-section="statement">
 	<div class="ztr-container ztr-statement__inner">
-		<p class="ztr-statement__eyebrow ztr-mono" id="ztr-statement-label">
-			<span class="ztr-statement__tick" aria-hidden="true"></span>
+		<p class="ztr-eyebrow ztr-statement__eyebrow" id="ztr-statement-label">
+			<span aria-hidden="true"></span>
 			<?php echo esc_html( $c['eyebrow'] ); ?>
 		</p>
 		<p class="ztr-statement__text" data-ztr-scrub-text><?php echo ztr_kses_inline( $c['text'] ); // phpcs:ignore ?></p>

@@ -487,12 +487,18 @@
 	root.querySelectorAll('[data-ztr-accordion] details').forEach(function (details) {
 		var summary = details.querySelector('summary');
 		var content = details.querySelector('.ztr-acc__a');
+		var group = details.closest('[data-ztr-accordion]');
+		var openEvent = (group && group.getAttribute('data-ztr-accordion')) || 'faq_open';
+		var trackOpen = function () {
+			var label = summary.querySelector('h3') ? summary.querySelector('h3').textContent.trim() : summary.textContent.trim();
+			ZTR.track(openEvent, openEvent === 'faq_open' ? { faq_question: label } : { item_name: label });
+		};
 		var animating = false;
 
 		summary.addEventListener('click', function (e) {
 			if (ZTR.reduced() || !content.animate) {
 				if (!details.open) {
-					ZTR.track('faq_open', { faq_question: summary.textContent.trim() });
+					trackOpen();
 				}
 				return; // Native behaviour.
 			}
@@ -509,7 +515,7 @@
 				a.onfinish = function () {
 					animating = false;
 				};
-				ZTR.track('faq_open', { faq_question: summary.textContent.trim() });
+				trackOpen();
 			} else {
 				var start = content.offsetHeight;
 				var b = content.animate([{ height: start + 'px' }, { height: '0px' }], { duration: 320, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });

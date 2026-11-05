@@ -11,7 +11,7 @@ $c = ztr_content( 'why' );
 ?>
 <section class="ztr-section ztr-why" id="why" aria-labelledby="ztr-why-title" data-ztr-section="why">
 	<div class="ztr-container">
-		<header class="ztr-head ztr-head--split">
+		<header class="ztr-head ztr-head--center">
 			<div>
 				<p class="ztr-eyebrow" data-ztr-reveal><span>07</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
 				<h2 class="ztr-h2" id="ztr-why-title" data-ztr-reveal><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
@@ -30,7 +30,7 @@ $c = ztr_content( 'why' );
 
 		<ul class="ztr-diff">
 			<?php foreach ( $c['differentiators'] as $i => $d ) : ?>
-				<li class="ztr-diff__item ztr-brackets" data-ztr-spot data-ztr-reveal style="--d:<?php echo (int) $i; ?>">
+				<li class="ztr-diff__item" data-ztr-reveal style="--d:<?php echo (int) $i; ?>">
 					<span class="ztr-diff__icon"><?php echo ztr_icon( $d['icon'] ); // phpcs:ignore ?></span>
 					<h3 class="ztr-h4"><?php echo esc_html( $d['title'] ); ?></h3>
 					<p><?php echo esc_html( $d['text'] ); ?></p>

@@ -12,7 +12,7 @@ $c = ztr_content( 'trust' );
 ?>
 <section class="ztr-trust" aria-label="<?php echo esc_attr( $c['label'] ); ?>">
 	<div class="ztr-container ztr-trust__inner">
-		<p class="ztr-trust__label ztr-mono"><?php echo esc_html( $c['label'] ); ?></p>
+		<p class="ztr-trust__label"><?php echo esc_html( $c['label'] ); ?></p>
 		<div class="ztr-marquee" data-ztr-marquee>
 			<ul class="ztr-marquee__track">
 				<?php foreach ( $c['platforms'] as $p ) : ?>

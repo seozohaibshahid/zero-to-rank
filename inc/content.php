@@ -58,6 +58,12 @@ function ztr_default_content() {
 		/* 02 — Hero. */
 		'hero'       => array(
 			'eyebrow'       => __( 'Search visibility, redefined', 'zero-to-rank' ),
+			/* Three-word headline (one per channel). 'accent' highlights a word. */
+			'words'         => array(
+				array( 'word' => __( 'Found.', 'zero-to-rank' ), 'caption' => __( 'SEO — rank where your buyers search', 'zero-to-rank' ) ),
+				array( 'word' => __( 'Answered.', 'zero-to-rank' ), 'caption' => __( 'AEO — become the direct answer', 'zero-to-rank' ), 'accent' => true ),
+				array( 'word' => __( 'Cited.', 'zero-to-rank' ), 'caption' => __( 'GEO — get recommended by AI assistants', 'zero-to-rank' ) ),
+			),
 			'title_lines'   => array(
 				__( 'Be the <em>answer.</em>', 'zero-to-rank' ),
 				__( 'Not just another search result.', 'zero-to-rank' ),

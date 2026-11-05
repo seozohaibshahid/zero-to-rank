@@ -14,14 +14,13 @@ $c = ztr_content( 'audit' );
 $status = isset( $_GET['ztr_audit'] ) ? sanitize_key( wp_unslash( $_GET['ztr_audit'] ) ) : '';
 $email  = ztr_setting( 'email' );
 ?>
-<section class="ztr-section ztr-audit ztr-dark" id="audit" aria-labelledby="ztr-audit-title" data-ztr-section="audit">
-	<div class="ztr-audit__glow" aria-hidden="true"></div>
+<section class="ztr-section ztr-audit ztr-band" id="audit" aria-labelledby="ztr-audit-title" data-ztr-section="audit">
 	<div class="ztr-container ztr-audit__layout">
 		<div class="ztr-audit__copy">
 			<p class="ztr-eyebrow" data-ztr-reveal><span>10</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
 			<h2 class="ztr-h2" id="ztr-audit-title" data-ztr-reveal><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
 			<p class="ztr-lead" data-ztr-reveal><?php echo esc_html( $c['intro'] ); ?></p>
-			<p class="ztr-mono ztr-audit__kicker" data-ztr-reveal><?php esc_html_e( 'Your audit covers', 'zero-to-rank' ); ?></p>
+			<p class="ztr-audit__kicker" data-ztr-reveal><?php esc_html_e( 'Your audit covers', 'zero-to-rank' ); ?></p>
 			<ul class="ztr-audit__list">
 				<?php foreach ( $c['includes'] as $i => $item ) : ?>
 					<li data-ztr-reveal style="--d:<?php echo (int) $i; ?>"><?php echo ztr_icon( 'check' ); // phpcs:ignore ?><span><?php echo esc_html( $item ); ?></span></li>
