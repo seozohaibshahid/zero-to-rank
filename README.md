@@ -11,24 +11,37 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 
 | # | Section | Interaction |
 |---|---------|-------------|
-| 01 | Navigation | Links left, logo centred, CTA right. White on the hero, a plain white bar once the page scrolls; hides on scroll-down. Full-screen mobile menu (Esc to close) |
-| 02 | Hero | The page's one gradient: a deep-to-bright blue panel with a three-word headline (Found. Answered. Cited. — one per channel, captions underneath), a glass card with two real results and a bold audit CTA. Edit `$c['hero']['words']` |
-| 03 | Trust bar | Channels we optimise for (marquee, pauses on hover/off-screen) + verifiable working principles. **No client logos** |
-| — | Statement | A point-of-view line that fills in word by word as it scrolls through the viewport (plain, fully legible text without JS or with reduced motion). Edit `$c['statement']` |
-| 04 | Case studies | Three real engagements (international B2B, industrial manufacturer, Canadian real estate) as tabs: headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence (open full size). Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
-| 05 | The visibility shift | Plain two-column comparison: how buyers search traditionally vs with AI, and what earns visibility in each |
-| 06 | Services | Numbered rows (SEO / AEO / GEO) that expand to show deliverables; the CTA pre-selects the audit focus |
-| 07 | Why Zero to Rank | Scroll-triggered count-up metrics + differentiators |
-| 08 | Process | Five step cards on a soft grey band |
-| 09 | Who we help | Industry tabs (arrow-key navigation) with challenge, approach and priority channels |
-| — | Editor content | Anything typed in the page editor renders here (only if not empty) |
-| 10 | Free visibility audit | Inline validation, async submit, animated button feedback, no-JS fallback, spam protection, leads stored in WP admin |
-| 11 | FAQs | Contained card of question rows (native `<details>`, smooth height); also output as FAQPage schema |
-| 12 | Footer | Centred final CTA, services/explore/contact columns |
+| 01 | Navigation | Floating glass pill (logo, section links with sliding indicator, Blog, "Free audit"). Hides on scroll down; full-screen dark menu on mobile |
+| 02 | Hero | Blue gradient panel, three-word headline, glass results card, bold CTA. Words rise out of masks, light drifts and follows the pointer, figures count up, words spread on scroll |
+| 03 | Logo strip | Real platform logos (Google, ChatGPT, Claude, Gemini, Perplexity, Maps, YouTube; Bing and Copilot as names) drifting on a plain background. **No client logos** |
+| — | Statement | Point-of-view line that fills in word by word on scroll |
+| 04 | Case studies | Three real engagements as **stacked sticky cards**: each pins under the nav and the next slides over it while the covered card sinks back. Metrics, GA4 AI-source bars, original report screenshots. CTA band after the stack |
+| 05 | Services | **Expanding panels** (SEO / AEO / GEO): the hovered or tapped panel widens to show deliverables and a pre-filled audit CTA |
+| 06 | The visibility shift | Head-to-head comparison with aligned rows and a "vs" marker; the AI column is highlighted |
+| 07 | Process | Dark band, five step cards, scroll-filled progress line |
+| 08 | Why Zero to Rank | Argument pinned left with CTA and principles; four numbered reason cards on the right |
+| 09 | Who we help | Industry tabs: challenge on a dark panel, approach beside it |
+| 10 | FAQs | Intro left, ruled questions right; FAQPage schema |
+| 11 | Free audit | Dark CTA box with the **Fluent Form** (falls back to the built-in form) and a reassurance line |
+| 12 | Footer | Dark footer with the rising "Zero to Rank" wordmark |
+| — | Mobile CTA bar | Small screens: a sticky "Free visibility audit" bar after the hero, hidden at the form |
 
-Site-wide: one typeface (Geist), sentence-case section tags with a blue dot, flat cards with thin borders, and calm fade-up reveals. The statement line fills in as it scrolls.
+## Editing in Elementor
 
-**Palette:** Blue `#0593C6` (accent, hero gradient, large figures) and White `#FCFFFF` (base), with neutral ink `#0A0F12` and greys. Text and buttons use the same blue at an accessible depth, `#0477A1` (`--ztr-blue-ink`). Legacy token names (`--ztr-teal`, `--ztr-pearl`, `--ztr-lime`) still resolve.
+Every section above is an Elementor widget in the **Zero to Rank** category (ZTR Hero, ZTR Logo Strip, ZTR Statement, ZTR Case Studies, ZTR Services, ZTR Visibility Shift, ZTR Process, ZTR Why Us, ZTR Who We Help, ZTR FAQ, ZTR Audit Form, ZTR Page Hero, ZTR Blog Grid). Each widget renders the theme's own template part, so the design and animations stay intact while every text, list, link and image is editable. Lists use one item per line; metric lists use `value | label | detail`.
+
+Pages built this way use the **Zero to Rank — Canvas (Elementor)** template (nav + footer around the Elementor content). On first load with Elementor active, the theme (once, version `ZTR_SETUP_VERSION`):
+
+- converts the front page from the classic landing template into an Elementor page with all the widgets (the previous template is stored in `_ztr_previous_template`),
+- creates a **Blog** page (Elementor: ZTR Page Hero + ZTR Blog Grid + ZTR Audit Form),
+- publishes one sample article marked **noindex**,
+- links the Fluent Form titled "Zero to Rank – Free Visibility Audit" (Customizer → Zero to Rank → Fluent Form ID).
+
+Any post or page can be hidden from search engines with the **Search engines → noindex** box in the editor sidebar (also removes it from the XML sitemap).
+
+**Type** (all self-hosted, Latin only): Bricolage Grotesque for display, Manrope for body text, Instrument Serif italic for emphasis inside headings (`<em>`), JetBrains Mono for small labels.
+
+**Palette:** Blue `#0593C6` (brand) and White `#FCFFFF`, on a cool off-white page `#F1F6F8`. Dark sections are a deep night blue `#020B12` lit by navy `#04263A` and indigo `#141A52` glows, with ice blue `#6FD6F7` as the signal colour (buttons, emphasis, figures). Blue-violet `#4A62E0` is used only inside gradients (the ticker band). Text and links on light backgrounds use `#0477A1` (`--ztr-blue-ink`) for contrast. The hero keeps its own blue sky gradient. Legacy token names (`--ztr-teal`, `--ztr-pearl`, `--ztr-lime`) still resolve.
 
 Motion follows one rule: **it must explain, guide or confirm**. Everything respects
 `prefers-reduced-motion` (state changes stay, movement goes) and works without JavaScript.
@@ -47,8 +60,8 @@ zero-to-rank/
 │   └── template-zero-to-rank.php "Zero to Rank — Landing" (selectable in the page editor)
 │
 ├── template-parts/sections/      One file per section (modular, reorderable)
-│   ├── header.php  hero.php  trust.php  statement.php  results.php  shift.php  services.php
-│   ├── why.php  process.php  industries.php  editor.php  audit.php  faq.php
+│   ├── header.php  hero.php  trust.php  stats.php  statement.php  services.php  results.php
+│   ├── shift.php  process.php  why.php  industries.php  editor.php  faq.php  audit.php
 │   └── footer.php
 │
 ├── inc/
@@ -62,9 +75,9 @@ zero-to-rank/
 │
 └── assets/
     ├── css/  main.css · animations.css · responsive.css
-    ├── js/   main.js · interactions.js · animations.js · vendor/ (GSAP 3.13 + ScrollTrigger)
+    ├── js/   main.js · interactions.js · animations.js · vendor/ (GSAP 3.13 + ScrollTrigger, Lenis 1.1.13)
     ├── images/  logo-mark.svg · logo-mark.png
-    └── fonts/   Geist (variable) · Geist Mono (variable) · Instrument Serif Italic — all OFL, self-hosted
+    └── fonts/   Bricolage Grotesque · Manrope · JetBrains Mono (variable) · Instrument Serif Italic — all OFL, self-hosted
 ```
 
 ---
@@ -150,7 +163,7 @@ add_filter( 'ztr_content', function ( $c ) {
 
 The brief rules out fabricated claims. The copy avoids them, but these statements describe how the agency works and must be true for you:
 
-- *Why Zero to Rank* metrics: **3** channels · **5** stages · **90-day** roadmaps (`$c['why']['metrics']`).
+- The four figures in the results strip and hero card (`$c['hero']['proof']`) must match the case-study evidence.
 - The *Statement* line (`$c['statement']`) — opinion, not a claim, but it should sound like you.
 - Trust principles, FAQ answers on timelines, pricing and access, and the audit promise ("reviewed by a person").
 - Case studies: every figure must match its evidence screenshot; client names stay withheld unless you have written permission.
@@ -195,8 +208,9 @@ Mark `generate_lead` as a **key event** in GA4.
 ## Performance & accessibility
 
 - No images on the critical path — all visuals are HTML/CSS/SVG. The LCP element is the hero headline, animated with CSS only (no JS wait).
-- Fonts self-hosted, `font-display: swap`, primary font preloaded. Only Latin subsets ship.
-- All scripts load with `defer`; GSAP (~45 KB gzipped incl. ScrollTrigger) is used only for scroll-linked effects and can be disabled with `add_filter( 'ztr_use_gsap', '__return_false' )` — everything falls back to Intersection Observer.
+- Fonts self-hosted, `font-display: swap`, display and body fonts preloaded. Only Latin subsets ship.
+- All scripts load with `defer`. GSAP (~45 KB gzipped incl. ScrollTrigger) drives the scroll-linked and pointer effects; disable it with `add_filter( 'ztr_use_gsap', '__return_false' )` and reveals, count-ups, the ticker and the statement fill fall back to Intersection Observer / CSS. Lenis smooth scrolling (mouse wheel and trackpad; touch keeps native scrolling) can be turned off with `add_filter( 'ztr_use_lenis', '__return_false' )`.
+- Pointer effects (magnetic buttons, card tilt, custom cursor) only run on fine pointers.
 - Animations use `transform`/`opacity`; marquee and hero autoplay pause off-screen. No layout shift (CLS 0).
 - Semantic HTML5 landmarks, one `h1`, ordered `h2`/`h3` hierarchy, skip link, visible focus rings, WAI-ARIA tabs/radios with arrow-key support, `aria-live` status messages.
 
@@ -221,5 +235,6 @@ WordPress 6.3+ (uses the script `strategy` argument) · PHP 7.4+.
 ## Credits & licences
 
 - Theme code: GPL-2.0-or-later.
-- [Geist & Geist Mono](https://vercel.com/font) and [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif): SIL Open Font License 1.1.
+- [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque), [Manrope](https://fonts.google.com/specimen/Manrope), [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) and [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif): SIL Open Font License 1.1.
 - [GSAP 3.13](https://gsap.com) with ScrollTrigger: free under the GSAP Standard License.
+- [Lenis 1.1.13](https://github.com/darkroomengineering/lenis): MIT.

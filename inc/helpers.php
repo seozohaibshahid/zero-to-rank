@@ -8,12 +8,161 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Is the current request rendering the Zero to Rank landing template?
+ * Is this the Zero to Rank landing page? True for the classic landing
+ * template, and for the Elementor canvas template when it is the front page.
+ * Landing-only output (SEO title/meta, Service + FAQ schema) keys off this.
  *
  * @return bool
  */
 function ztr_is_landing() {
-	return is_page_template( ZTR_TEMPLATE );
+	return is_page_template( ZTR_TEMPLATE ) || ( is_front_page() && is_page_template( ZTR_CANVAS ) );
+}
+
+/**
+ * Is the theme running on its own (not as a child of another theme)?
+ *
+ * @return bool
+ */
+function ztr_is_standalone() {
+	return get_template() === get_stylesheet();
+}
+
+/**
+ * Should this request use the Zero to Rank design (assets, header, footer)?
+ * Pages on either Zero to Rank template always do. In standalone mode, the
+ * blog views (posts index, single posts, archives, search, 404) do as well.
+ *
+ * @return bool
+ */
+function ztr_has_assets() {
+	if ( is_page_template( ZTR_TEMPLATE ) || is_page_template( ZTR_CANVAS ) ) {
+		return true;
+	}
+	if ( ztr_is_standalone() && ( is_singular( 'post' ) || is_home() || is_archive() || is_search() || is_404() ) ) {
+		return true;
+	}
+	return (bool) apply_filters( 'ztr_has_assets', false );
+}
+
+/**
+ * Section content: the defaults from inc/content.php with any arguments
+ * (from an Elementor widget or a direct call) laid over them.
+ *
+ * @param string $key  Content key, e.g. 'services'.
+ * @param array  $args Overrides.
+ * @return array
+ */
+function ztr_args( $key, $args = array() ) {
+	$defaults = ztr_content( $key );
+	if ( ! is_array( $args ) || ! $args ) {
+		return $defaults;
+	}
+	return array_merge( $defaults, $args );
+}
+
+/**
+ * Resolve an image value: an attachment ID, a full URL, or a path inside
+ * the theme's assets/ folder.
+ *
+ * @param int|string $src Image reference.
+ * @return array { url, width, height } (width/height 0 when unknown).
+ */
+function ztr_image( $src ) {
+	$out = array( 'url' => '', 'width' => 0, 'height' => 0 );
+	if ( is_numeric( $src ) && (int) $src > 0 ) {
+		$img = wp_get_attachment_image_src( (int) $src, 'full' );
+		if ( $img ) {
+			$out = array( 'url' => $img[0], 'width' => (int) $img[1], 'height' => (int) $img[2] );
+		}
+		return $out;
+	}
+	$src = (string) $src;
+	if ( '' === $src ) {
+		return $out;
+	}
+	if ( preg_match( '#^([a-z][a-z0-9+.-]*:)?//#i', $src ) ) {
+		$out['url'] = $src;
+		$id         = attachment_url_to_postid( $src );
+		if ( $id ) {
+			$img = wp_get_attachment_image_src( $id, 'full' );
+			if ( $img ) {
+				$out['width']  = (int) $img[1];
+				$out['height'] = (int) $img[2];
+			}
+		} elseif ( 0 === strpos( $src, ZTR_URI ) ) {
+			$src = substr( $src, strlen( ZTR_URI . 'assets/' ) );
+		} else {
+			return $out;
+		}
+		if ( $out['width'] ) {
+			return $out;
+		}
+	}
+	$file = ZTR_DIR . 'assets/' . ltrim( $src, '/' );
+	if ( ! $out['url'] ) {
+		$out['url'] = ztr_asset( $src );
+	}
+	if ( is_readable( $file ) ) {
+		$size = @getimagesize( $file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		if ( $size ) {
+			$out['width']  = (int) $size[0];
+			$out['height'] = (int) $size[1];
+		}
+	}
+	return $out;
+}
+
+/**
+ * Turn "a | b | c" lines into rows keyed by $cols (used for metric lists).
+ *
+ * @param string|array $value Lines or rows already.
+ * @param array        $cols  Column keys.
+ * @return array
+ */
+function ztr_rows( $value, $cols ) {
+	if ( is_array( $value ) ) {
+		return $value;
+	}
+	$rows = array();
+	foreach ( preg_split( '/\r\n|\r|\n/', (string) $value ) as $line ) {
+		if ( '' === trim( $line ) ) {
+			continue;
+		}
+		$parts = array_map( 'trim', explode( '|', $line ) );
+		$row   = array();
+		foreach ( $cols as $i => $col ) {
+			$row[ $col ] = isset( $parts[ $i ] ) ? $parts[ $i ] : '';
+		}
+		$rows[] = $row;
+	}
+	return $rows;
+}
+
+/**
+ * Turn newline-separated text into a list (arrays pass through).
+ *
+ * @param string|array $value Text or list.
+ * @return array
+ */
+function ztr_lines( $value ) {
+	if ( is_array( $value ) ) {
+		return array_values( array_filter( array_map( 'trim', $value ), 'strlen' ) );
+	}
+	return array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $value ) ), 'strlen' ) );
+}
+
+/**
+ * Link for an in-page anchor that also works away from the homepage.
+ *
+ * @param string $url URL or #anchor.
+ * @return string
+ */
+function ztr_link( $url ) {
+	$url = (string) $url;
+	if ( '' !== $url && '#' === $url[0] && ! ( is_front_page() || is_page_template( ZTR_TEMPLATE ) ) ) {
+		return home_url( '/' . $url );
+	}
+	return $url;
 }
 
 /**
@@ -99,16 +248,18 @@ function ztr_icon( $name, $class = '' ) {
 }
 
 /**
- * The brand mark: a zero ring with a rising rank bar.
+ * The brand mark: a zero ring holding three rising rank bars.
+ * The ring takes the text colour; the bars are ice blue.
  *
  * @param string $class Extra class.
  * @return string
  */
 function ztr_logo_mark( $class = '' ) {
 	return '<svg class="ztr-logo__mark ' . esc_attr( $class ) . '" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" focusable="false">'
-		. '<circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="4"/>'
-		. '<path d="M26 26 35 9" stroke="#58F6B1" stroke-width="4.5" stroke-linecap="round"/>'
-		. '<circle cx="35" cy="9" r="3.6" fill="#58F6B1"/>'
+		. '<circle cx="20" cy="20" r="15.5" fill="none" stroke="currentColor" stroke-width="4"/>'
+		. '<rect x="11.6" y="21.5" width="4.2" height="6.5" rx="1.4" fill="#6FD6F7" opacity=".55"/>'
+		. '<rect x="17.9" y="17" width="4.2" height="11" rx="1.4" fill="#6FD6F7" opacity=".8"/>'
+		. '<rect x="24.2" y="12" width="4.2" height="16" rx="1.4" fill="#6FD6F7"/>'
 		. '</svg>';
 }
 

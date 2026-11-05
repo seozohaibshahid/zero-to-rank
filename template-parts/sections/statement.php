@@ -1,6 +1,6 @@
 <?php
 /**
- * Statement: a large point-of-view line between the trust bar and results.
+ * Statement: a large point-of-view line between the logo strip and the results.
  *
  * With JS and motion allowed, animations.js splits the text into words and
  * fills them in as the reader scrolls. Without JS (or with reduced motion)
@@ -11,14 +11,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$c = ztr_content( 'statement' );
+$c = ztr_args( 'statement', isset( $args ) ? $args : array() );
 if ( empty( $c['text'] ) ) {
 	return;
 }
 ?>
 <section class="ztr-statement" aria-labelledby="ztr-statement-label" data-ztr-section="statement">
 	<div class="ztr-container ztr-statement__inner">
-		<p class="ztr-eyebrow ztr-statement__eyebrow" id="ztr-statement-label">
+		<p class="ztr-eyebrow ztr-statement__eyebrow" id="ztr-statement-label" data-ztr-reveal>
 			<span aria-hidden="true"></span>
 			<?php echo esc_html( $c['eyebrow'] ); ?>
 		</p>

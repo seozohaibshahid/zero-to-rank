@@ -53,6 +53,7 @@ function ztr_default_content() {
 			array( 'label' => __( 'Process', 'zero-to-rank' ), 'url' => '#process' ),
 			array( 'label' => __( 'Who we help', 'zero-to-rank' ), 'url' => '#industries' ),
 			array( 'label' => __( 'FAQs', 'zero-to-rank' ), 'url' => '#faq' ),
+			array( 'label' => __( 'Blog', 'zero-to-rank' ), 'url' => '/blog/' ),
 		),
 
 		/* 02 — Hero. */
@@ -71,19 +72,37 @@ function ztr_default_content() {
 			'lead_strong'   => __( 'From zero to everywhere.', 'zero-to-rank' ),
 			'lead'          => __( 'We help ambitious businesses grow through SEO, Answer Engine Optimization and Generative Engine Optimization.', 'zero-to-rank' ),
 			'primary_cta'   => __( 'Get your free visibility audit', 'zero-to-rank' ),
+			'cta_link'      => '#audit',
 			'secondary_cta' => __( 'See client results', 'zero-to-rank' ),
-			/* Real results shown under the hero; each links to its case study. */
+			/* Real results: the hero card shows the first two, the stats strip shows all four. Each links to its case study. */
 			'proof'         => array(
 				array( 'value' => '+144%', 'label' => __( 'search clicks in 6 months', 'zero-to-rank' ), 'who' => __( 'International B2B', 'zero-to-rank' ), 'href' => '#ztr-case-international' ),
 				array( 'value' => '16.8K', 'label' => __( 'clicks from a near-standing start', 'zero-to-rank' ), 'who' => __( 'Industrial manufacturer', 'zero-to-rank' ), 'href' => '#ztr-case-industrial' ),
 				array( 'value' => '322K', 'label' => __( 'impressions in Google AI features', 'zero-to-rank' ), 'who' => __( 'Real estate · Canada', 'zero-to-rank' ), 'href' => '#ztr-case-realestate' ),
+				array( 'value' => '1,797', 'label' => __( 'key events from AI-assistant visitors', 'zero-to-rank' ), 'who' => __( 'Real estate · Canada', 'zero-to-rank' ), 'href' => '#ztr-case-realestate' ),
 			),
 		),
 
-		/* 03 — Trust bar: channels covered + verifiable working principles (no client logos). */
+		/* 03 — Logo strip: the platforms we optimise for, on a plain background. No client logos. */
+		'logos'      => array(
+			'label' => __( 'We build visibility where your customers now search', 'zero-to-rank' ),
+			/* 'logo' is a built-in mark (inc/logos.php) or empty for name only; 'image' overrides it with an uploaded logo. */
+			'items' => array(
+				array( 'name' => 'Google Search', 'logo' => 'google', 'image' => '' ),
+				array( 'name' => 'AI Overviews', 'logo' => 'google', 'image' => '' ),
+				array( 'name' => 'ChatGPT', 'logo' => 'openai', 'image' => '' ),
+				array( 'name' => 'Claude', 'logo' => 'claude', 'image' => '' ),
+				array( 'name' => 'Gemini', 'logo' => 'googlegemini', 'image' => '' ),
+				array( 'name' => 'Perplexity', 'logo' => 'perplexity', 'image' => '' ),
+				array( 'name' => 'Google Maps', 'logo' => 'googlemaps', 'image' => '' ),
+				array( 'name' => 'Bing', 'logo' => '', 'image' => '' ),
+				array( 'name' => 'Copilot', 'logo' => '', 'image' => '' ),
+				array( 'name' => 'YouTube', 'logo' => 'youtube', 'image' => '' ),
+			),
+		),
+
+		/* Working principles (used in the Why section). */
 		'trust'      => array(
-			'label'      => __( 'We build visibility where your customers now search', 'zero-to-rank' ),
-			'platforms'  => array( 'Google Search', 'Google AI Overviews', 'Google Maps', 'Bing', 'ChatGPT', 'Perplexity', 'Gemini', 'Microsoft Copilot', 'YouTube' ),
 			'principles' => array(
 				array( 'icon' => 'shield', 'text' => __( 'Search-guideline-led methods', 'zero-to-rank' ) ),
 				array( 'icon' => 'chart', 'text' => __( 'Transparent, outcome-based reporting', 'zero-to-rank' ) ),
@@ -110,6 +129,9 @@ function ztr_default_content() {
 			'eyebrow' => __( 'Case studies', 'zero-to-rank' ),
 			'title'   => __( 'Real results, <em>straight from the reports.</em>', 'zero-to-rank' ),
 			'intro'   => __( 'Three live engagements. Every number on this page comes from the client’s own Google Search Console or GA4 — the screenshots are right there to check.', 'zero-to-rank' ),
+			'cta_title'  => __( 'Want numbers like these in your own reports?', 'zero-to-rank' ),
+			'cta_text'   => __( 'Start with a free visibility audit. A person reviews your site and sends back the first priorities.', 'zero-to-rank' ),
+			'cta_button' => __( 'Get my free audit', 'zero-to-rank' ),
 			'note'    => __( 'Client names are withheld. Figures are as reported by Google Search Console and Google Analytics 4 for the periods shown; past results do not guarantee future rankings.', 'zero-to-rank' ),
 			'cases'   => array(
 				array(
@@ -126,10 +148,12 @@ function ztr_default_content() {
 					),
 					'sources'  => array(),
 					'footnote' => __( 'CTR moved from 2.9% to 2.0% because impressions grew faster than clicks.', 'zero-to-rank' ),
-					'evidence' => array(
-						array( 'src' => 'images/cases/intl-search-compare.webp', 'w' => 1460, 'h' => 545, 'caption' => __( 'Search Console · Performance, last 6 months vs previous 6 months', 'zero-to-rank' ) ),
-						array( 'src' => 'images/cases/intl-ai-impressions.webp', 'w' => 1410, 'h' => 520, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
-					),
+					'img1'     => 'images/cases/intl-search-compare.webp',
+					'cap1'     => __( 'Search Console · Performance, last 6 months vs previous 6 months', 'zero-to-rank' ),
+					'img2'     => 'images/cases/intl-ai-impressions.webp',
+					'cap2'     => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ),
+					'img3'     => '',
+					'cap3'     => '',
 				),
 				array(
 					'key'      => 'industrial',
@@ -151,11 +175,12 @@ function ztr_default_content() {
 						array( 'name' => 'Perplexity', 'value' => 5 ),
 					),
 					'footnote' => __( 'The highlighted area marks the engagement period.', 'zero-to-rank' ),
-					'evidence' => array(
-						array( 'src' => 'images/cases/industrial-search-16m.webp', 'w' => 1465, 'h' => 490, 'caption' => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ) ),
-						array( 'src' => 'images/cases/industrial-ai-impressions.webp', 'w' => 1455, 'h' => 500, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
-						array( 'src' => 'images/cases/industrial-ai-traffic.webp', 'w' => 1485, 'h' => 605, 'caption' => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ) ),
-					),
+					'img1'     => 'images/cases/industrial-search-16m.webp',
+					'cap1'     => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ),
+					'img2'     => 'images/cases/industrial-ai-impressions.webp',
+					'cap2'     => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ),
+					'img3'     => 'images/cases/industrial-ai-traffic.webp',
+					'cap3'     => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ),
 				),
 				array(
 					'key'      => 'realestate',
@@ -177,11 +202,12 @@ function ztr_default_content() {
 						array( 'name' => 'Copilot', 'value' => 6 ),
 					),
 					'footnote' => '',
-					'evidence' => array(
-						array( 'src' => 'images/cases/realestate-search-16m.webp', 'w' => 1460, 'h' => 485, 'caption' => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ) ),
-						array( 'src' => 'images/cases/realestate-ai-impressions.webp', 'w' => 1460, 'h' => 490, 'caption' => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ) ),
-						array( 'src' => 'images/cases/realestate-ai-traffic.webp', 'w' => 1495, 'h' => 670, 'caption' => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ) ),
-					),
+					'img1'     => 'images/cases/realestate-search-16m.webp',
+					'cap1'     => __( 'Search Console · Performance, 16 months', 'zero-to-rank' ),
+					'img2'     => 'images/cases/realestate-ai-impressions.webp',
+					'cap2'     => __( 'Search Console · Generative AI, last 6 months', 'zero-to-rank' ),
+					'img3'     => 'images/cases/realestate-ai-traffic.webp',
+					'cap3'     => __( 'GA4 · AI-assistant traffic by source / medium', 'zero-to-rank' ),
 				),
 			),
 		),
@@ -191,20 +217,23 @@ function ztr_default_content() {
 			'eyebrow' => __( 'The visibility shift', 'zero-to-rank' ),
 			'title'   => __( 'Search didn’t disappear. <em>It split.</em>', 'zero-to-rank' ),
 			'intro'   => __( 'Buyers still search — but more of their questions are now answered before they ever click. Visibility means being found in the results and being the source the answer is built from.', 'zero-to-rank' ),
+			/* Two columns; 'highlight' => 'yes' marks the one we win in. */
 			'modes'   => array(
-				'traditional' => array(
+				array(
 					'label'   => __( 'Traditional search', 'zero-to-rank' ),
 					'query'   => __( 'best project management software', 'zero-to-rank' ),
 					'steps'   => array( __( 'Types keywords', 'zero-to-rank' ), __( 'Scans ten links', 'zero-to-rank' ), __( 'Opens several tabs', 'zero-to-rank' ), __( 'Compares and decides', 'zero-to-rank' ) ),
 					'wins'    => array( __( 'Rankings & position', 'zero-to-rank' ), __( 'Click-through rate', 'zero-to-rank' ), __( 'Keyword-matched pages', 'zero-to-rank' ), __( 'Backlink authority', 'zero-to-rank' ) ),
 					'summary' => __( 'You compete for a click. The buyer does the research.', 'zero-to-rank' ),
+					'highlight' => '',
 				),
-				'ai'          => array(
+				array(
 					'label'   => __( 'AI-driven discovery', 'zero-to-rank' ),
 					'query'   => __( 'Which project management tool suits a 12-person agency?', 'zero-to-rank' ),
 					'steps'   => array( __( 'Asks a full question', 'zero-to-rank' ), __( 'Gets one synthesised answer', 'zero-to-rank' ), __( 'Sees a shortlist with sources', 'zero-to-rank' ), __( 'Acts on the recommendation', 'zero-to-rank' ) ),
 					'wins'    => array( __( 'Clear, citable answers', 'zero-to-rank' ), __( 'Entity & brand consistency', 'zero-to-rank' ), __( 'Structured data', 'zero-to-rank' ), __( 'Mentions on trusted sources', 'zero-to-rank' ) ),
 					'summary' => __( 'You compete to be included. The AI does the research.', 'zero-to-rank' ),
+					'highlight' => 'yes',
 				),
 			),
 		),
@@ -242,16 +271,13 @@ function ztr_default_content() {
 			),
 		),
 
-		/* 07 — Why Zero to Rank. Metrics describe how we work; confirm before launch. */
+		/* 07 — Why Zero to Rank: differentiators (platform chips come from the trust list). */
 		'why'        => array(
 			'eyebrow'         => __( 'Why Zero to Rank', 'zero-to-rank' ),
 			'title'           => __( 'Built for how people <em>search now.</em>', 'zero-to-rank' ),
 			'intro'           => __( 'Most agencies bolt “AI” onto an old SEO playbook. We start from how decisions are actually made today and work back to the actions that move them.', 'zero-to-rank' ),
-			'metrics'         => array(
-				array( 'value' => 3, 'suffix' => '', 'label' => __( 'visibility channels, planned as one roadmap', 'zero-to-rank' ) ),
-				array( 'value' => 5, 'suffix' => '', 'label' => __( 'stages from audit to compounding growth', 'zero-to-rank' ) ),
-				array( 'value' => 90, 'suffix' => '-day', 'label' => __( 'priority roadmaps, reviewed every cycle', 'zero-to-rank' ) ),
-			),
+			'cta'             => __( 'Get your free visibility audit', 'zero-to-rank' ),
+			'cta_note'        => __( 'Free. No obligation. Reviewed by a person.', 'zero-to-rank' ),
 			'differentiators' => array(
 				array( 'icon' => 'layers', 'title' => __( 'Unified, not siloed', 'zero-to-rank' ), 'text' => __( 'SEO, AEO and GEO share one research base and one roadmap, so every page works across all three channels.', 'zero-to-rank' ) ),
 				array( 'icon' => 'target', 'title' => __( 'Commercial intent first', 'zero-to-rank' ), 'text' => __( 'We prioritise the searches and questions closest to a buying decision before chasing volume.', 'zero-to-rank' ) ),
@@ -322,12 +348,7 @@ function ztr_default_content() {
 			'eyebrow'  => __( 'Free visibility audit', 'zero-to-rank' ),
 			'title'    => __( 'See where you’re <em>invisible</em> — before your competitors do.', 'zero-to-rank' ),
 			'intro'    => __( 'Tell us about your business and we will review your visibility across search, answer engines and AI assistants, then send back the priorities we would tackle first.', 'zero-to-rank' ),
-			'includes' => array(
-				__( 'Technical and on-page SEO health check', 'zero-to-rank' ),
-				__( 'Answer-readiness review of your key pages', 'zero-to-rank' ),
-				__( 'AI assistant mention and citation spot-check', 'zero-to-rank' ),
-				__( 'A short, prioritised action list', 'zero-to-rank' ),
-			),
+			'form_id'  => 0, /* Fluent Form ID; 0 = the form chosen in the Customizer, else the built-in form. */
 			'reassure' => __( 'No obligation. No automated report dump. Reviewed by a person.', 'zero-to-rank' ),
 			'button'   => __( 'Request my free audit', 'zero-to-rank' ),
 			'success'  => __( 'Thank you — your audit request is in. We will be in touch at the email you provided.', 'zero-to-rank' ),
@@ -373,10 +394,29 @@ function ztr_default_content() {
 			),
 		),
 
+		/* Blog grid (Elementor "ZTR Blog Grid" widget / blog page). */
+		'blog'       => array(
+			'eyebrow'  => __( 'Insights', 'zero-to-rank' ),
+			'title'    => __( 'Notes on search, <em>answers and AI.</em>', 'zero-to-rank' ),
+			'intro'    => __( 'Practical guides on SEO, AEO and GEO: what is changing in search and what to do about it.', 'zero-to-rank' ),
+			'per_page' => 9,
+		),
+
+		/* Inner-page hero (blog page and other inner pages). */
+		'page_hero'  => array(
+			'eyebrow' => __( 'Blog', 'zero-to-rank' ),
+			'title'   => __( 'Search visibility, <em>explained.</em>', 'zero-to-rank' ),
+			'text'    => __( 'How buyers search now, and how to be the answer they find.', 'zero-to-rank' ),
+		),
+
+		/* Mobile sticky CTA bar (appears after the hero, hides at the form). */
+		'sticky_cta' => array(
+			'text'   => __( 'Free visibility audit', 'zero-to-rank' ),
+			'button' => __( 'Get it free', 'zero-to-rank' ),
+		),
+
 		/* 12 — Footer. */
 		'footer'     => array(
-			'cta_title' => __( 'Ready to go from <em>zero to everywhere?</em>', 'zero-to-rank' ),
-			'cta_text'  => __( 'Start with a free visibility audit. We will show you exactly where you stand.', 'zero-to-rank' ),
 			'blurb'     => __( 'Zero to Rank is a search visibility agency helping ambitious businesses get found, chosen and cited across search engines, answer engines and AI assistants.', 'zero-to-rank' ),
 		),
 	);

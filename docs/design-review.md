@@ -54,3 +54,14 @@ Feedback: the page still looked AI-made, and the references weren't being follow
 - **Motion** is fade-up only, plus the statement fill.
 
 Lighthouse (mobile, local): 100 / 100 / 100 / 100, CLS 0.
+
+## v1.4: Markethon system, Zero to Rank colours
+
+Feedback: use markethonagency.com as the model for the nav, fonts, colour grading, animation, card display and footer. Keep the hero as it is, add motion to it, and keep the blue palette.
+
+- **Fonts:** Bricolage Grotesque (display), Manrope (body), Instrument Serif italic (emphasis), JetBrains Mono (labels), all self-hosted.
+- **Nav:** a floating glass pill with the CTA inside, which hides on scroll down.
+- **Hero:** same layout and gradient. Words rise out of masks, the light drifts and follows the pointer, the result figures count up, and the words spread apart as the hero leaves.
+- **Rhythm after the hero:** blue ticker band → results strip → statement → services bento with dark and blue feature cards → dark case-study band → comparison → dark process band with a scroll-filled line → why (two columns) → industries → FAQ (two columns) → dark CTA box with the form → dark footer with a rising wordmark.
+- **Colour grading:** Markethon's wine/forest glows on ink become navy and indigo glows on a night blue. Ice blue `#6FD6F7` takes the role of the signal colour.
+- **Motion:** word-by-word heading rises, cards lift and settle, the ticker reacts to scroll velocity, Lenis smooth scrolling, magnetic buttons, card tilt with spotlight, and a custom cursor. All of it falls back cleanly without GSAP or JavaScript and is skipped under `prefers-reduced-motion`.

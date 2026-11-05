@@ -10,10 +10,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ZTR_VERSION', '1.3.0' );
+define( 'ZTR_VERSION', '2.0.0' );
 define( 'ZTR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'ZTR_URI', trailingslashit( get_stylesheet_directory_uri() ) );
 define( 'ZTR_TEMPLATE', 'page-templates/template-zero-to-rank.php' );
+define( 'ZTR_CANVAS', 'page-templates/template-canvas.php' );
 
 $ztr_includes = array(
 	'inc/helpers.php',    // Template detection, icons, small utilities.
@@ -23,6 +24,9 @@ $ztr_includes = array(
 	'inc/seo.php',        // Title, meta description, canonical, Open Graph.
 	'inc/schema.php',     // JSON-LD structured data.
 	'inc/form.php',       // Visibility-audit form: validation, spam protection, storage, email.
+	'inc/logos.php',      // Platform logos for the logo strip.
+	'inc/blog.php',       // Blog helpers, noindex control.
+	'inc/elementor.php',  // Elementor widgets (one per section) and the one-time page setup.
 );
 
 foreach ( $ztr_includes as $ztr_file ) {
