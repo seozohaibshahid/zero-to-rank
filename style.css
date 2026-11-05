@@ -1,0 +1,23 @@
+/*
+Theme Name:   Zero to Rank
+Theme URI:    https://zerotorank.com/
+Description:  Zero to Rank landing page — a custom, conversion-focused page template for SEO, AEO and GEO services. Works as a child theme of your existing theme (see README.md) or as a standalone theme. All front-end styles are scoped and only load on pages that use the "Zero to Rank — Landing" template.
+Author:       Zero to Rank
+Version:      1.0.0
+Requires at least: 6.3
+Requires PHP: 7.4
+License:      GNU General Public License v2 or later
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  zero-to-rank
+Tags:         custom-page-template, one-column, accessibility-ready
+
+Child-theme mode (recommended): add a header line here named "Template"
+followed by a colon and your parent theme's folder name, e.g. for Hello
+Elementor the line reads  Template + colon + hello-elementor.  See README.md.
+*/
+
+/*
+ * Intentionally empty. Landing page styles live in assets/css/ and are
+ * enqueued only on the Zero to Rank page template (see inc/setup.php),
+ * so nothing here can leak into the rest of the site.
+ */
