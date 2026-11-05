@@ -169,3 +169,48 @@ add_filter(
 		return $classes;
 	}
 );
+
+/**
+ * One-time setup on activation: create the landing page if none uses the
+ * template yet, and make it the front page — but only when the site still
+ * shows its latest posts (a fresh install). Existing front pages are never
+ * replaced. Disable with: add_filter( 'ztr_auto_setup', '__return_false' );
+ */
+add_action(
+	'after_switch_theme',
+	function () {
+		if ( ! apply_filters( 'ztr_auto_setup', true ) ) {
+			return;
+		}
+		$template = 'page-templates/template-zero-to-rank.php';
+		$existing = get_posts(
+			array(
+				'post_type'      => 'page',
+				'post_status'    => array( 'publish', 'draft', 'private' ),
+				'meta_key'       => '_wp_page_template', // phpcs:ignore WordPress.DB.SlowDBQuery
+				'meta_value'     => $template, // phpcs:ignore WordPress.DB.SlowDBQuery
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+		if ( $existing ) {
+			return;
+		}
+		$page_id = wp_insert_post(
+			array(
+				'post_type'   => 'page',
+				'post_title'  => __( 'Home', 'zero-to-rank' ),
+				'post_status' => 'publish',
+				'post_name'   => 'home',
+			)
+		);
+		if ( ! $page_id || is_wp_error( $page_id ) ) {
+			return;
+		}
+		update_post_meta( $page_id, '_wp_page_template', $template );
+		if ( 'posts' === get_option( 'show_on_front' ) ) {
+			update_option( 'show_on_front', 'page' );
+			update_option( 'page_on_front', $page_id );
+		}
+	}
+);

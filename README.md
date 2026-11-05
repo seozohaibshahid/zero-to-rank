@@ -138,6 +138,8 @@ add_filter( 'ztr_content', function ( $c ) {
 } );
 ```
 
+**First activation:** on a site that still shows its latest posts, activating the theme creates a "Home" page with the landing template and sets it as the front page. An existing front page is never replaced; turn this off with `add_filter( 'ztr_auto_setup', '__return_false' );`.
+
 **Reorder or remove sections:** `add_filter( 'ztr_sections', fn( $s ) => array_diff( $s, array( 'trust' ) ) );`
 
 **SEO title & description:** without an SEO plugin, use the *Zero to Rank — SEO* box in the page editor sidebar (falls back to the page excerpt, then to sensible defaults).
