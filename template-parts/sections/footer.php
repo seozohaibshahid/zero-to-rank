@@ -31,7 +31,7 @@ $profiles = ztr_social_profiles();
 			<div class="ztr-footer__brand">
 				<a class="ztr-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 					<?php echo ztr_logo_mark(); // phpcs:ignore ?>
-					<span class="ztr-logo__text">Zero<span class="ztr-logo__to">to</span>Rank</span>
+					<span class="ztr-logo__text">Zero <span class="ztr-logo__to">to</span> Rank</span>
 				</a>
 				<p><?php echo esc_html( $c['blurb'] ); ?></p>
 			</div>

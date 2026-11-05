@@ -11,9 +11,10 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 
 | # | Section | Interaction |
 |---|---------|-------------|
-| 01 | Navigation | Sticky header, transparent → solid on scroll, hides on scroll-down / returns on scroll-up, scroll-spy, full-screen mobile menu (Esc to close) |
-| 02 | Hero | CSS-only headline intro (fast LCP). Animated **visibility ecosystem**: the same business ranks #1 (SEO), becomes the featured answer (AEO) and gets cited by AI (GEO). Accessible tabs with a visible auto-advance timer that pauses on hover/focus/off-screen and stops for good once the visitor takes control |
+| 01 | Navigation | Desktop: links in a centred glass capsule with a sliding indicator (follows hover/focus, rests on the section in view); on scroll the bar condenses into one floating capsule. Hides on scroll-down / returns on scroll-up. Full-screen mobile menu (Esc to close) |
+| 02 | Hero | CSS-only headline intro (fast LCP). As you scroll past, the hero recedes into an inset, rounded panel. Animated **visibility ecosystem**: the same business ranks #1 (SEO), becomes the featured answer (AEO) and gets cited by AI (GEO). Accessible tabs with a visible auto-advance timer that pauses on hover/focus/off-screen and stops for good once the visitor takes control |
 | 03 | Trust bar | Channels we optimise for (marquee, pauses on hover/off-screen) + verifiable working principles. **No client logos** |
+| — | Statement | A point-of-view line that fills in word by word as it scrolls through the viewport (plain, fully legible text without JS or with reduced motion). Edit `$c['statement']` |
 | 04 | Results | Interactive reporting cards drive one chart (line draws on select). Labelled *Illustrative*. Real, approved case studies render automatically when added |
 | 05 | The visibility shift | Traditional search vs AI-driven discovery toggle — journey, result surface and "what earns visibility" all change together. Plays once on first view, then hands control to the visitor |
 | 06 | Services | SEO / AEO / GEO cards expand on hover/focus (desktop) or tap (mobile accordion); each has its own animated visual. CTAs pre-select the audit focus |
@@ -24,6 +25,8 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 | 10 | Free visibility audit | Inline validation, async submit, animated button feedback, no-JS fallback, spam protection, leads stored in WP admin |
 | 11 | FAQs | Native `<details>` accordion with smooth height animation; also output as FAQPage schema |
 | 12 | Footer | Final CTA, services/explore/contact columns, wordmark |
+
+Site-wide: section headings reveal word by word (blur → sharp); dark sections are inset, rounded "sheets" that settle into place as they enter; cards marked `data-ztr-spot` get a pointer-following lime spotlight, and `.ztr-brackets` adds the focus-bracket hover detail.
 
 Motion follows one rule: **it must explain, guide or confirm**. Everything respects
 `prefers-reduced-motion` (state changes stay, movement goes) and works without JavaScript.
@@ -42,7 +45,7 @@ zero-to-rank/
 │   └── template-zero-to-rank.php "Zero to Rank — Landing" (selectable in the page editor)
 │
 ├── template-parts/sections/      One file per section (modular, reorderable)
-│   ├── header.php  hero.php  trust.php  results.php  shift.php  services.php
+│   ├── header.php  hero.php  trust.php  statement.php  results.php  shift.php  services.php
 │   ├── why.php  process.php  industries.php  editor.php  audit.php  faq.php
 │   └── footer.php
 │
@@ -144,6 +147,7 @@ add_filter( 'ztr_content', function ( $c ) {
 The brief rules out fabricated claims. The copy avoids them, but these statements describe how the agency works and must be true for you:
 
 - *Why Zero to Rank* metrics: **3** channels · **5** stages · **90-day** roadmaps (`$c['why']['metrics']`).
+- The *Statement* line (`$c['statement']`) — opinion, not a claim, but it should sound like you.
 - Trust principles, FAQ answers on timelines, pricing and access, and the audit promise ("reviewed by a person").
 - The hero/visual uses the placeholder `yourbusiness.com` on purpose — it's a concept illustration, not a client.
 

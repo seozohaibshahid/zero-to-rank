@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="ztr-container ztr-nav__inner">
 		<a class="ztr-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Zero to Rank — home', 'zero-to-rank' ); ?>">
 			<?php echo ztr_logo_mark(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?>
-			<span class="ztr-logo__text">Zero<span class="ztr-logo__to">to</span>Rank</span>
+			<span class="ztr-logo__text">Zero <span class="ztr-logo__to">to</span> Rank</span>
 		</a>
 
 		<nav class="ztr-nav__menu" id="ztr-menu" aria-label="<?php esc_attr_e( 'Primary', 'zero-to-rank' ); ?>" data-ztr-menu>
@@ -34,6 +34,7 @@ defined( 'ABSPATH' ) || exit;
 				echo '</ul>';
 			}
 			?>
+			<span class="ztr-nav__indicator" aria-hidden="true" data-ztr-nav-indicator></span>
 			<a class="ztr-btn ztr-btn--lime ztr-nav__menu-cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" <?php echo ztr_track_attrs( 'cta_click', 'nav_mobile', 'Free visibility audit' ); // phpcs:ignore ?>>
 				<span><?php esc_html_e( 'Get your free visibility audit', 'zero-to-rank' ); ?></span>
 				<?php echo ztr_icon( 'arrow-up-right' ); // phpcs:ignore ?>

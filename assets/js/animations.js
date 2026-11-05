@@ -135,6 +135,125 @@
 		measure();
 	})();
 
+	/**
+	 * Scroll-progress helper: calls fn(progress 0–1) as `el` travels between
+	 * two viewport positions (fractions of the viewport height, measured
+	 * against the element's top and bottom). GSAP ScrollTrigger when loaded,
+	 * otherwise a rAF-throttled scroll listener.
+	 */
+	function scrub(el, startAt, endAt, fn, endEdge) {
+		if (hasGsap) {
+			window.ScrollTrigger.create({
+				trigger: el,
+				start: 'top ' + Math.round(startAt * 100) + '%',
+				end: (endEdge || 'bottom') + ' ' + Math.round(endAt * 100) + '%',
+				onUpdate: function (self) {
+					fn(self.progress);
+				},
+				onRefresh: function (self) {
+					fn(self.progress);
+				}
+			});
+			return;
+		}
+		var ticking = false;
+		function measure() {
+			var r = el.getBoundingClientRect();
+			var vh = window.innerHeight;
+			var a = r.top - vh * startAt; // scroll distance until the start point
+			var b = (endEdge === 'top' ? r.top : r.bottom) - vh * endAt; // …until the end point
+			fn(b - a > 0 ? Math.min(1, Math.max(0, -a / (b - a))) : 1);
+			ticking = false;
+		}
+		window.addEventListener(
+			'scroll',
+			function () {
+				if (!ticking) {
+					ticking = true;
+					window.requestAnimationFrame(measure);
+				}
+			},
+			{ passive: true }
+		);
+		window.addEventListener('resize', measure);
+		measure();
+	}
+
+	/* =====================================================================
+	 * Statement: words fill in as the line scrolls through the viewport.
+	 * ================================================================== */
+	(function statement() {
+		var text = root.querySelector('[data-ztr-scrub-text]');
+		if (!text || ZTR.reduced() || typeof ZTR.splitWords !== 'function') {
+			return;
+		}
+		var words = ZTR.splitWords(text, 'ztr-sw');
+		var emph = text.querySelector('em');
+		var n = words.length;
+		if (!n) {
+			return;
+		}
+		text.classList.add('is-split');
+		var last = -1;
+		scrub(text, 0.85, 0.45, function (p) {
+			var reach = p * (n + 2); // a little run-out so the last word lands fully
+			if (Math.abs(reach - last) < 0.01) {
+				return;
+			}
+			last = reach;
+			for (var i = 0; i < n; i++) {
+				var f = Math.min(1, Math.max(0, reach - i));
+				words[i].style.setProperty('--f', f.toFixed(3));
+			}
+			if (emph) {
+				emph.classList.toggle('is-lit', p > 0.92);
+			}
+		});
+	})();
+
+	/* =====================================================================
+	 * Immersive transitions (GSAP only — decorative, so no fallback):
+	 * - the hero recedes into an inset panel as you scroll past it;
+	 * - dark sections settle from a slightly smaller, rounder sheet.
+	 * ================================================================== */
+	if (hasGsap && !ZTR.reduced()) {
+		var hero = root.querySelector('.ztr-hero');
+		var heroLayout = hero && hero.querySelector('.ztr-hero__layout');
+		if (hero) {
+			var radius = function () {
+				return parseFloat(getComputedStyle(hero).borderBottomLeftRadius) || 0;
+			};
+			window.ScrollTrigger.create({
+				trigger: hero,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 0.3,
+				onUpdate: function (self) {
+					var p = self.progress;
+					var inset = (p * Math.min(28, window.innerWidth * 0.025)).toFixed(1);
+					var r = radius() + p * 24;
+					hero.style.clipPath = 'inset(0px ' + inset + 'px 0px ' + inset + 'px round 0px 0px ' + r.toFixed(1) + 'px ' + r.toFixed(1) + 'px)';
+					if (heroLayout) {
+						heroLayout.style.transform = 'translate3d(0,' + (p * 90).toFixed(1) + 'px,0)';
+						heroLayout.style.opacity = (1 - p * 0.7).toFixed(3);
+					}
+				}
+			});
+		}
+
+		root.querySelectorAll('.ztr-section.ztr-dark, .ztr-footer').forEach(function (sheet) {
+			window.gsap.fromTo(
+				sheet,
+				{ scale: 0.95 },
+				{
+					scale: 1,
+					ease: 'none',
+					scrollTrigger: { trigger: sheet, start: 'top bottom', end: 'top 35%', scrub: 0.4 }
+				}
+			);
+		});
+	}
+
 	/* =====================================================================
 	 * Hero depth: the background glows drift with scroll (GSAP only —
 	 * purely ambient, so no fallback needed).

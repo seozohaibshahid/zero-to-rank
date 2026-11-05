@@ -20,6 +20,7 @@ $ztr_sections = apply_filters(
 	array(
 		'hero',        // 02
 		'trust',       // 03
+		'statement',   // Point-of-view line (scroll-filled).
 		'results',     // 04
 		'shift',       // 05
 		'services',    // 06

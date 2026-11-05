@@ -174,6 +174,72 @@
 	});
 
 	/* ---------------------------------------------------------------------
+	 * Word splitting: wraps each word of an element's text in a span while
+	 * keeping inline markup (<em>, <strong>, <br>) intact. Screen readers
+	 * still read the heading as one string.
+	 * ------------------------------------------------------------------ */
+	ZTR.splitWords = function (el, className) {
+		var words = [];
+		var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+		var nodes = [];
+		while (walker.nextNode()) {
+			nodes.push(walker.currentNode);
+		}
+		nodes.forEach(function (node) {
+			var parts = node.nodeValue.split(/(\s+)/);
+			if (parts.length === 1 && !parts[0].trim()) {
+				return;
+			}
+			var frag = document.createDocumentFragment();
+			parts.forEach(function (part) {
+				if (!part) {
+					return;
+				}
+				if (/^\s+$/.test(part)) {
+					frag.appendChild(document.createTextNode(part));
+					return;
+				}
+				var span = document.createElement('span');
+				span.className = className;
+				span.textContent = part;
+				frag.appendChild(span);
+				words.push(span);
+			});
+			node.parentNode.replaceChild(frag, node);
+		});
+		return words;
+	};
+
+	if (!ZTR.reduced() && 'IntersectionObserver' in window) {
+		root.querySelectorAll('.ztr-h2[data-ztr-reveal]').forEach(function (h) {
+			ZTR.splitWords(h, 'ztr-w').forEach(function (w, i) {
+				w.style.setProperty('--w', i);
+			});
+			h.classList.add('is-split');
+		});
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Card spotlight: a soft lime light follows the pointer across cards
+	 * marked [data-ztr-spot] (fine pointers only).
+	 * ------------------------------------------------------------------ */
+	if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+		root.addEventListener(
+			'pointermove',
+			function (e) {
+				var card = e.target.closest && e.target.closest('[data-ztr-spot]');
+				if (!card) {
+					return;
+				}
+				var r = card.getBoundingClientRect();
+				card.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
+				card.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
+			},
+			{ passive: true }
+		);
+	}
+
+	/* ---------------------------------------------------------------------
 	 * Scroll reveals (Intersection Observer, one-shot).
 	 * ------------------------------------------------------------------ */
 	var revealEls = root.querySelectorAll('[data-ztr-reveal]');
@@ -201,6 +267,58 @@
 	/* ---------------------------------------------------------------------
 	 * Scroll-spy: highlight the nav link for the section in view.
 	 * ------------------------------------------------------------------ */
+	/* Sliding indicator in the desktop nav capsule: follows hover, rests on
+	 * the current section's link, hides when neither applies. */
+	var indicator = nav && nav.querySelector('[data-ztr-nav-indicator]');
+	var moveIndicator = function () {};
+	if (indicator && menu) {
+		nav.classList.add('ztr-nav--pill');
+		moveIndicator = function (link) {
+			if (!link || window.innerWidth <= 960) {
+				indicator.classList.remove('is-on');
+				return;
+			}
+			var m = menu.getBoundingClientRect();
+			var r = link.getBoundingClientRect();
+			indicator.style.setProperty('--ztr-ind-x', (r.left - m.left - 1).toFixed(1) + 'px');
+			indicator.style.setProperty('--ztr-ind-w', r.width.toFixed(1) + 'px');
+			indicator.classList.add('is-on');
+		};
+		var currentLink = function () {
+			return menu.querySelector('.ztr-nav__list a.is-current');
+		};
+		menu.querySelectorAll('.ztr-nav__list a').forEach(function (a) {
+			a.addEventListener('mouseenter', function () {
+				moveIndicator(a);
+			});
+			a.addEventListener('focus', function () {
+				moveIndicator(a);
+			});
+		});
+		menu.addEventListener('mouseleave', function () {
+			moveIndicator(currentLink());
+		});
+		menu.addEventListener('focusout', function (e) {
+			if (!menu.contains(e.relatedTarget)) {
+				moveIndicator(currentLink());
+			}
+		});
+		window.addEventListener('resize', function () {
+			moveIndicator(currentLink());
+		});
+		// The capsule changes width when the page scrolls; re-measure after.
+		nav.querySelector('.ztr-nav__inner').addEventListener('transitionend', function (e) {
+			if (e.propertyName === 'max-width' && !menu.matches(':hover')) {
+				moveIndicator(currentLink());
+			}
+		});
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				moveIndicator(currentLink());
+			});
+		}
+	}
+
 	if ('IntersectionObserver' in window && nav) {
 		var links = {};
 		nav.querySelectorAll('.ztr-nav__list a[href^="#"]').forEach(function (a) {
@@ -220,6 +338,9 @@
 						});
 						link.classList.add('is-current');
 						link.setAttribute('aria-current', 'true');
+						if (!menu.matches(':hover')) {
+							moveIndicator(link);
+						}
 					}
 				});
 			},

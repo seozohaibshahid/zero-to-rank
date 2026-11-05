@@ -31,6 +31,20 @@
 }
 .ztr-js [data-ztr-reveal].is-in { opacity: 1; transform: none; }
 
+/* Headings: word-by-word blur-to-sharp reveal. main.js wraps each word in
+   .ztr-w (keeping <em> and <br>) and marks the heading .is-split; the
+   heading itself then stays put and only its words move. */
+.ztr-js .is-split[data-ztr-reveal] { opacity: 1; transform: none; }
+.is-split .ztr-w {
+	display: inline-block;
+	opacity: 0;
+	filter: blur(10px);
+	transform: translateY(0.32em);
+	transition: opacity 0.9s var(--ztr-ease), filter 0.9s var(--ztr-ease), transform 0.9s var(--ztr-ease);
+	transition-delay: calc(var(--w, 0) * 55ms + var(--d, 0) * 90ms);
+}
+.is-split.is-in .ztr-w { opacity: 1; filter: none; transform: none; }
+
 /* Live indicators ---------------------------------------------------------- */
 @keyframes ztr-pulse {
 	0%   { box-shadow: 0 0 0 0 rgba(185, 241, 47, 0.6); }
@@ -180,6 +194,8 @@
 	}
 	html:has(body.ztr-landing) { scroll-behavior: auto; }
 	.ztr-js [data-ztr-reveal] { opacity: 1; transform: none; }
+	.is-split .ztr-w { opacity: 1; filter: none; transform: none; }
+	.ztr-hero, .ztr-section.ztr-dark, .ztr-footer { clip-path: none !important; transform: none !important; }
 	.ztr-marquee__track { animation: none !important; }
 	.ztr-marquee { overflow-x: auto; }
 	.ztr-marquee__track[aria-hidden="true"] { display: none; }

@@ -21,7 +21,7 @@ $c = ztr_content( 'services' );
 
 		<div class="ztr-svc" data-ztr-services>
 			<?php foreach ( $c['items'] as $i => $s ) : ?>
-				<article class="ztr-svc__card ztr-svc__card--<?php echo esc_attr( $s['key'] ); ?><?php echo 0 === $i ? ' is-open' : ''; ?>" id="service-<?php echo esc_attr( $s['key'] ); ?>" data-ztr-service="<?php echo esc_attr( $s['key'] ); ?>" data-ztr-reveal style="--d:<?php echo (int) $i; ?>">
+				<article class="ztr-svc__card ztr-svc__card--<?php echo esc_attr( $s['key'] ); ?><?php echo 0 === $i ? ' is-open' : ''; ?>" id="service-<?php echo esc_attr( $s['key'] ); ?>" data-ztr-service="<?php echo esc_attr( $s['key'] ); ?>" data-ztr-reveal data-ztr-spot style="--d:<?php echo (int) $i; ?>">
 					<div class="ztr-svc__top">
 						<span class="ztr-svc__num ztr-mono">0<?php echo (int) $i + 1; ?></span>
 						<span class="ztr-svc__q"><?php echo esc_html( $s['question'] ); ?></span>

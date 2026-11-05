@@ -104,6 +104,15 @@ function ztr_default_content() {
 			),
 		),
 
+		/*
+		 * Statement: a point-of-view line that fills in word by word on scroll.
+		 * Wrap the phrase to emphasise in <em>. Opinion, not a claim — no figures.
+		 */
+		'statement'  => array(
+			'eyebrow' => __( 'Our point of view', 'zero-to-rank' ),
+			'text'    => __( 'Your buyers don’t search once any more. They ask Google, check the map, then ask an AI assistant to compare. At every one of those moments there is a single answer — <em>we make sure it is you.</em>', 'zero-to-rank' ),
+		),
+
 		/* 04 — Results: how progress is measured. */
 		'results'    => array(
 			'eyebrow'      => __( 'Results', 'zero-to-rank' ),
