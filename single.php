@@ -31,8 +31,10 @@ while ( have_posts() ) :
 					<p class="ztr-page-hero__text"><?php echo esc_html( get_the_excerpt() ); ?></p>
 				<?php endif; ?>
 				<p class="ztr-article__meta">
-					<span><?php echo esc_html( get_the_author() ); ?></span>
-					<span aria-hidden="true">·</span>
+					<?php if ( get_the_author() ) : ?>
+						<span><?php echo esc_html( get_the_author() ); ?></span>
+						<span aria-hidden="true">·</span>
+					<?php endif; ?>
 					<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
 					<?php if ( get_the_modified_date( 'Y-m-d' ) !== get_the_date( 'Y-m-d' ) ) : ?>
 						<span aria-hidden="true">·</span>

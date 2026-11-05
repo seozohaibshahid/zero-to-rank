@@ -662,6 +662,7 @@ function ztr_setup_sample_post() {
 			'post_status'   => 'publish',
 			'post_title'    => __( 'SEO vs AEO vs GEO: what each one does and where to start', 'zero-to-rank' ),
 			'post_name'     => 'seo-vs-aeo-vs-geo',
+			'post_author'   => ztr_first_admin_id(),
 			'post_excerpt'  => __( 'Search now happens on Google, in answer boxes and inside AI assistants. Here is what SEO, AEO and GEO each cover, how they overlap, and how to decide what to work on first.', 'zero-to-rank' ),
 			'post_content'  => ztr_sample_post_content(),
 			'post_category' => $cat_id ? array( $cat_id ) : array(),
@@ -676,6 +677,23 @@ function ztr_setup_sample_post() {
 		return 'sample post: error ' . $id->get_error_message();
 	}
 	return 'sample post: created #' . $id . ' (noindex)';
+}
+
+/**
+ * The first administrator (setup runs on a visitor request, with no user).
+ *
+ * @return int
+ */
+function ztr_first_admin_id() {
+	$ids = get_users(
+		array(
+			'role'    => 'administrator',
+			'number'  => 1,
+			'orderby' => 'ID',
+			'fields'  => 'ID',
+		)
+	);
+	return $ids ? (int) $ids[0] : 0;
 }
 
 /**
