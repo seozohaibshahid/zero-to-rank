@@ -1633,6 +1633,9 @@ html:not(.ztr-js) .ztr-nav { position: absolute; }
 .ztr-footer__legal ul { display: flex; gap: 20px; }
 .ztr-footer__legal a:hover { color: var(--ztr-lime); }
 
+/* The audit section stays flat — no ambient glow. */
+.ztr-audit__glow { display: none; }
+
 /* ==========================================================================
    Statement — point-of-view line, filled word by word on scroll
    ========================================================================== */
