@@ -1,182 +1,56 @@
 /* ==========================================================================
    Zero to Rank — animations.css
-   Keyframes, entrance reveals and motion states. Every animation here has a
-   job: guide attention, confirm an action, or explain a concept.
-   All motion is disabled under prefers-reduced-motion (bottom of file).
+   Calm motion only: content fades up into place, panels switch softly.
+   Everything is disabled under prefers-reduced-motion (bottom of file).
    ========================================================================== */
 
-/* Hero intro — pure CSS so it starts on first paint (no JS dependency, good for LCP). */
 @keyframes ztr-rise {
-	from { opacity: 0; transform: translateY(28px); }
+	from { opacity: 0; transform: translateY(16px); }
 	to   { opacity: 1; transform: none; }
 }
-@keyframes ztr-mask-up {
-	from { transform: translateY(105%); }
-	to   { transform: none; }
-}
-.ztr-hero [data-ztr-intro] { animation: ztr-rise 0.9s var(--ztr-ease) both; }
-.ztr-hero .ztr-hero__line-inner[data-ztr-intro] { animation-name: ztr-mask-up; animation-duration: 1s; }
-.ztr-hero [data-ztr-intro="0"] { animation-delay: 0.05s; }
-.ztr-hero [data-ztr-intro="1"] { animation-delay: 0.12s; }
-.ztr-hero [data-ztr-intro="2"] { animation-delay: 0.26s; }
-.ztr-hero [data-ztr-intro="3"] { animation-delay: 0.36s; }
-.ztr-hero [data-ztr-intro="4"] { animation-delay: 0.46s; }
 
-/* Scroll reveals (only when JS is available, so no-JS visitors always see content). */
+/* Hero intro: pure CSS so it starts on first paint (good for LCP). */
+.ztr-hero [data-ztr-intro] { animation: ztr-rise 0.8s var(--ztr-ease) both; }
+.ztr-hero [data-ztr-intro="1"] { animation-delay: 0.08s; }
+.ztr-hero [data-ztr-intro="2"] { animation-delay: 0.16s; }
+.ztr-hero [data-ztr-intro="3"] { animation-delay: 0.24s; }
+.ztr-hero [data-ztr-intro="4"] { animation-delay: 0.32s; }
+
+/* Scroll reveals (only with JS, so no-JS visitors always see content). */
 .ztr-js [data-ztr-reveal] {
 	opacity: 0;
-	transform: translateY(26px);
-	transition: opacity 0.85s var(--ztr-ease), transform 0.85s var(--ztr-ease);
-	transition-delay: calc(var(--d, 0) * 90ms);
+	transform: translateY(16px);
+	transition: opacity 0.7s var(--ztr-ease), transform 0.7s var(--ztr-ease);
+	transition-delay: calc(var(--d, 0) * 70ms);
 }
 .ztr-js [data-ztr-reveal].is-in { opacity: 1; transform: none; }
 
-/* Headings: word-by-word blur-to-sharp reveal. main.js wraps each word in
-   .ztr-w (keeping <em> and <br>) and marks the heading .is-split; the
-   heading itself then stays put and only its words move. */
-.ztr-js .is-split[data-ztr-reveal] { opacity: 1; transform: none; }
-.is-split .ztr-w {
-	display: inline-block;
-	opacity: 0;
-	filter: blur(10px);
-	transform: translateY(0.32em);
-	transition: opacity 0.9s var(--ztr-ease), filter 0.9s var(--ztr-ease), transform 0.9s var(--ztr-ease);
-	transition-delay: calc(var(--w, 0) * 55ms + var(--d, 0) * 90ms);
-}
-.is-split.is-in .ztr-w { opacity: 1; filter: none; transform: none; }
-
-/* Live indicators ---------------------------------------------------------- */
-@keyframes ztr-pulse {
-	0%   { box-shadow: 0 0 0 0 rgba(88, 246, 177, 0.6); }
-	70%  { box-shadow: 0 0 0 10px rgba(88, 246, 177, 0); }
-	100% { box-shadow: 0 0 0 0 rgba(88, 246, 177, 0); }
-}
-
-
-@keyframes ztr-blink { 50% { opacity: 0; } }
-.ztr-eco__caret { animation: ztr-blink 1s steps(1) infinite; }
-
-/* Hero tab progress (autoplay timer). Duration is set by JS via --ztr-dur. */
-@keyframes ztr-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.ztr-eco.is-playing .ztr-eco__tab.is-active .ztr-eco__tab-progress i {
-	animation: ztr-progress var(--ztr-dur, 5600ms) linear forwards;
-}
-.ztr-eco.is-paused .ztr-eco__tab.is-active .ztr-eco__tab-progress i { animation-play-state: paused; }
-.ztr-eco:not(.is-playing) .ztr-eco__tab.is-active .ztr-eco__tab-progress i { transform: scaleX(1); }
-
-/* Rank badge pop when the row reaches #1 */
-@keyframes ztr-pop {
-	0% { transform: scale(1); }
-	40% { transform: scale(1.25); }
-	100% { transform: scale(1); }
-}
-.ztr-serp__rank.is-top { animation: ztr-pop 0.5s var(--ztr-ease); }
-
-/* AEO / GEO staged appearance inside the hero panel */
-.ztr-eco__panel .ztr-answer,
-.ztr-eco__panel .ztr-paa li,
-.ztr-eco__panel .ztr-ai__line,
-.ztr-eco__panel .ztr-ai__list li,
-.ztr-eco__panel .ztr-ai__sources { opacity: 0; transform: translateY(8px); }
-.ztr-eco__panel.is-active .ztr-answer,
-.ztr-eco__panel.is-active .ztr-paa li,
-.ztr-eco__panel.is-active .ztr-ai__line,
-.ztr-eco__panel.is-active .ztr-ai__list li,
-.ztr-eco__panel.is-active .ztr-ai__sources { animation: ztr-rise 0.6s var(--ztr-ease) both; }
-.ztr-eco__panel.is-active .ztr-answer { animation-delay: 0.25s; }
-.ztr-eco__panel.is-active .ztr-paa li:nth-child(1) { animation-delay: 0.55s; }
-.ztr-eco__panel.is-active .ztr-paa li:nth-child(2) { animation-delay: 0.65s; }
-.ztr-eco__panel.is-active .ztr-ai__line { animation-delay: 0.25s; }
-.ztr-eco__panel.is-active .ztr-ai__list li:nth-child(1) { animation-delay: 0.5s; }
-.ztr-eco__panel.is-active .ztr-ai__list li:nth-child(2) { animation-delay: 0.62s; }
-.ztr-eco__panel.is-active .ztr-ai__list li:nth-child(3) { animation-delay: 0.74s; }
-.ztr-eco__panel.is-active .ztr-ai__sources { animation-delay: 0.95s; }
-
-/* Marquee ---------------------------------------------------------------- */
+/* Marquee */
 @keyframes ztr-marquee { to { transform: translateX(-100%); } }
-.ztr-marquee__track { animation: ztr-marquee 38s linear infinite; }
+.ztr-marquee__track { animation: ztr-marquee 40s linear infinite; }
 .ztr-marquee:hover .ztr-marquee__track,
 .ztr-marquee.is-paused .ztr-marquee__track { animation-play-state: paused; }
 
-/* Results chart: line draws in when a metric is selected */
-@keyframes ztr-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes ztr-fade { from { opacity: 0; } to { opacity: 1; } }
-.ztr-js .ztr-dash:not(.is-in) .ztr-chart__line { stroke-dashoffset: 1; }
-.ztr-dash.is-in .ztr-chart__line.is-drawing { animation: ztr-draw 1.4s var(--ztr-ease-in-out) both; }
-.ztr-dash.is-in .ztr-chart__area.is-drawing { animation: ztr-fade 1s var(--ztr-ease) 0.4s both; }
-.ztr-dash__signals li { transition: opacity 0.4s var(--ztr-ease), transform 0.4s var(--ztr-ease); }
-.ztr-dash__signals.is-swapping li { opacity: 0; transform: translateY(6px); }
-.ztr-dash__panel-title { transition: opacity 0.3s var(--ztr-ease); }
-.ztr-dash__panel-title.is-swapping { opacity: 0; }
+/* Tab panels */
+.ztr-case:not([hidden]),
+.ztr-ind__panel:not([hidden]) { animation: ztr-rise 0.5s var(--ztr-ease) both; }
 
-/* Visibility shift: content enters in sequence each time the mode changes */
-.ztr-shift__mode:not([hidden]) .ztr-shift__links li,
-.ztr-shift__mode:not([hidden]) .ztr-shift__answer-line,
-.ztr-shift__mode:not([hidden]) .ztr-shift__cards span,
-.ztr-shift__mode:not([hidden]) .ztr-shift__steps li {
-	animation: ztr-rise 0.6s var(--ztr-ease) both;
-	animation-delay: calc(var(--i, 0) * 70ms + 80ms);
-}
-.ztr-shift__mode:not([hidden]) .ztr-shift__wins,
-.ztr-shift__mode:not([hidden]) .ztr-shift__summary { animation: ztr-rise 0.7s var(--ztr-ease) 0.35s both; }
-@keyframes ztr-shimmer {
-	from { background-position: -200% 0; }
-	to   { background-position: 200% 0; }
-}
-
-
-/* Service visuals animate only on the open card (so motion = focus) */
-@keyframes ztr-grow { from { transform: scaleY(0.2); } to { transform: scaleY(1); } }
-@keyframes ztr-orbit { to { transform: rotate(calc(var(--a) + 360deg)) translateX(65px); } }
-@keyframes ztr-highlight {
-	0%, 100% { transform: scaleX(1); opacity: 1; }
-	50% { transform: scaleX(1.12); opacity: 0.85; }
-}
-.ztr-svc__card.is-open .ztr-viz-bars i { animation: ztr-grow 0.9s var(--ztr-ease) both; }
-.ztr-svc__card.is-open .ztr-viz-bars i:nth-child(2) { animation-delay: 0.06s; }
-.ztr-svc__card.is-open .ztr-viz-bars i:nth-child(3) { animation-delay: 0.12s; }
-.ztr-svc__card.is-open .ztr-viz-bars i:nth-child(4) { animation-delay: 0.18s; }
-.ztr-svc__card.is-open .ztr-viz-bars i:nth-child(5) { animation-delay: 0.24s; }
-.ztr-svc__card.is-open .ztr-viz-answer i { animation: ztr-rise 0.6s var(--ztr-ease) both; }
-.ztr-svc__card.is-open .ztr-viz-answer i:nth-child(2) { animation-delay: 0.08s; }
-.ztr-svc__card.is-open .ztr-viz-answer i:nth-child(3) { animation-delay: 0.16s; }
-.ztr-svc__card.is-open .ztr-viz-answer b { transform-origin: left; animation: ztr-highlight 2.4s var(--ztr-ease-in-out) 0.4s infinite; }
-.ztr-svc__card.is-open .ztr-viz-orbit i { animation: ztr-orbit 9s linear infinite; }
-
-
-/* Industry panel switch */
-.ztr-ind__panel:not([hidden]) { animation: ztr-rise 0.6s var(--ztr-ease) both; }
-.ztr-ind__panel:not([hidden]) .ztr-ind__approach li {
-	animation: ztr-rise 0.55s var(--ztr-ease) both;
-	animation-delay: calc(var(--i, 0) * 80ms + 150ms);
-}
+/* Accordion height is animated by JS; the content eases in. */
+.ztr-acc[open] .ztr-acc__a > * { animation: ztr-rise 0.45s var(--ztr-ease) both; }
 
 /* Form feedback */
 @keyframes ztr-spin { to { transform: rotate(360deg); } }
 .ztr-btn.is-loading .ztr-btn__spinner { animation: ztr-spin 0.8s linear infinite; }
 @keyframes ztr-shake {
-	10%, 90% { transform: translateX(-1px); }
-	20%, 80% { transform: translateX(3px); }
-	30%, 50%, 70% { transform: translateX(-5px); }
-	40%, 60% { transform: translateX(5px); }
+	20%, 60% { transform: translateX(-4px); }
+	40%, 80% { transform: translateX(4px); }
 }
-.ztr-btn.is-error { animation: ztr-shake 0.5s var(--ztr-ease); }
-@keyframes ztr-success-in {
-	from { opacity: 0; transform: scale(0.6); }
-	to   { opacity: 1; transform: none; }
-}
-.ztr-form__success:not([hidden]) .ztr-form__success-icon { animation: ztr-success-in 0.6s var(--ztr-ease) both; }
-.ztr-form__success:not([hidden]) > *:not(.ztr-form__success-icon) { animation: ztr-rise 0.6s var(--ztr-ease) 0.15s both; }
+.ztr-btn.is-error { animation: ztr-shake 0.4s ease; }
+.ztr-form__success:not([hidden]) > * { animation: ztr-rise 0.5s var(--ztr-ease) both; }
 
-/* Accordion height is animated by JS; the answer text eases in. */
-.ztr-acc__a { transition: height 0.45s var(--ztr-ease); }
-.ztr-acc[open] .ztr-acc__a p { animation: ztr-rise 0.5s var(--ztr-ease) both; }
-
-/* Reduced motion: keep every state change, remove the movement. ------------ */
+/* Reduced motion: keep every state change, remove the movement. */
 @media (prefers-reduced-motion: reduce) {
-	.ztr *,
-	.ztr *::before,
-	.ztr *::after {
+	.ztr *, .ztr *::before, .ztr *::after {
 		animation-duration: 0.001ms !important;
 		animation-delay: 0ms !important;
 		animation-iteration-count: 1 !important;
@@ -186,10 +60,7 @@
 	}
 	html:has(body.ztr-landing) { scroll-behavior: auto; }
 	.ztr-js [data-ztr-reveal] { opacity: 1; transform: none; }
-	.is-split .ztr-w { opacity: 1; filter: none; transform: none; }
-	.ztr-hero, .ztr-section.ztr-dark, .ztr-footer { clip-path: none !important; transform: none !important; }
 	.ztr-marquee__track { animation: none !important; }
 	.ztr-marquee { overflow-x: auto; }
 	.ztr-marquee__track[aria-hidden="true"] { display: none; }
-	.ztr-hero__glow { transform: none !important; }
 }

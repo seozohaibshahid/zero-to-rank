@@ -212,49 +212,6 @@
 	})();
 
 	/* =====================================================================
-	 * Immersive transitions (GSAP only — decorative, so no fallback):
-	 * - the hero recedes into an inset panel as you scroll past it;
-	 * - dark sections settle from a slightly smaller, rounder sheet.
-	 * ================================================================== */
-	if (hasGsap && !ZTR.reduced()) {
-		var hero = root.querySelector('.ztr-hero');
-		var heroLayout = hero && hero.querySelector('.ztr-hero__layout');
-		if (hero) {
-			var radius = function () {
-				return parseFloat(getComputedStyle(hero).borderBottomLeftRadius) || 0;
-			};
-			window.ScrollTrigger.create({
-				trigger: hero,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 0.3,
-				onUpdate: function (self) {
-					var p = self.progress;
-					var inset = (p * Math.min(28, window.innerWidth * 0.025)).toFixed(1);
-					var r = radius() + p * 24;
-					hero.style.clipPath = 'inset(0px ' + inset + 'px 0px ' + inset + 'px round 0px 0px ' + r.toFixed(1) + 'px ' + r.toFixed(1) + 'px)';
-					if (heroLayout) {
-						heroLayout.style.transform = 'translate3d(0,' + (p * 90).toFixed(1) + 'px,0)';
-						heroLayout.style.opacity = (1 - p * 0.7).toFixed(3);
-					}
-				}
-			});
-		}
-
-		root.querySelectorAll('.ztr-section.ztr-dark, .ztr-footer').forEach(function (sheet) {
-			window.gsap.fromTo(
-				sheet,
-				{ scale: 0.95 },
-				{
-					scale: 1,
-					ease: 'none',
-					scrollTrigger: { trigger: sheet, start: 'top bottom', end: 'top 35%', scrub: 0.4 }
-				}
-			);
-		});
-	}
-
-	/* =====================================================================
 	 * Hero depth: the background glows drift with scroll (GSAP only —
 	 * purely ambient, so no fallback needed).
 	 * ================================================================== */

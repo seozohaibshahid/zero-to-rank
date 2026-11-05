@@ -11,24 +11,24 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 
 | # | Section | Interaction |
 |---|---------|-------------|
-| 01 | Navigation | Desktop: links in a centred glass capsule with a sliding indicator (follows hover/focus, rests on the section in view); on scroll the bar condenses into one floating capsule. Hides on scroll-down / returns on scroll-up. Full-screen mobile menu (Esc to close) |
-| 02 | Hero | Centred headline with a CSS-only intro (fast LCP), two CTAs and a strip of three real client results that open the matching case study. As you scroll past, the hero recedes into an inset panel |
+| 01 | Navigation | Links left, logo centred, CTA right. White on the hero, a plain white bar once the page scrolls; hides on scroll-down. Full-screen mobile menu (Esc to close) |
+| 02 | Hero | The page's one gradient: a deep-to-bright blue panel with a three-word headline (Found. Answered. Cited. — one per channel, captions underneath), a glass card with two real results and a bold audit CTA. Edit `$c['hero']['words']` |
 | 03 | Trust bar | Channels we optimise for (marquee, pauses on hover/off-screen) + verifiable working principles. **No client logos** |
 | — | Statement | A point-of-view line that fills in word by word as it scrolls through the viewport (plain, fully legible text without JS or with reduced motion). Edit `$c['statement']` |
 | 04 | Case studies | Three real engagements (international B2B, industrial manufacturer, Canadian real estate) as tabs: headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence (open full size). Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
-| 05 | The visibility shift | Traditional search vs AI-driven discovery toggle — journey, result surface and "what earns visibility" all change together. Plays once on first view, then hands control to the visitor |
-| 06 | Services | SEO / AEO / GEO cards expand on hover/focus (desktop) or tap (mobile accordion); each has its own animated visual. CTAs pre-select the audit focus |
+| 05 | The visibility shift | Plain two-column comparison: how buyers search traditionally vs with AI, and what earns visibility in each |
+| 06 | Services | Numbered rows (SEO / AEO / GEO) that expand to show deliverables; the CTA pre-selects the audit focus |
 | 07 | Why Zero to Rank | Scroll-triggered count-up metrics + differentiators |
-| 08 | Process | 5-step timeline; the rail fills with scroll (GSAP ScrollTrigger, IO/rAF fallback) and steps light up as it reaches them |
+| 08 | Process | Five step cards on a soft grey band |
 | 09 | Who we help | Industry tabs (arrow-key navigation) with challenge, approach and priority channels |
 | — | Editor content | Anything typed in the page editor renders here (only if not empty) |
 | 10 | Free visibility audit | Inline validation, async submit, animated button feedback, no-JS fallback, spam protection, leads stored in WP admin |
-| 11 | FAQs | Native `<details>` accordion with smooth height animation; also output as FAQPage schema |
-| 12 | Footer | Final CTA, services/explore/contact columns, wordmark |
+| 11 | FAQs | Contained card of question rows (native `<details>`, smooth height); also output as FAQPage schema |
+| 12 | Footer | Centred final CTA, services/explore/contact columns |
 
-Site-wide: section headings reveal word by word (blur → sharp); dark sections are inset, rounded "sheets" that settle into place as they enter; cards marked `data-ztr-spot` get a pointer-following mint spotlight, and `.ztr-brackets` adds the focus-bracket hover detail.
+Site-wide: one typeface (Geist), sentence-case section tags with a blue dot, flat cards with thin borders, and calm fade-up reveals. The statement line fills in as it scrolls.
 
-**Palette:** Ink `#010102` (base), Lavender `#AD96F1` (headline accents, labels, bars), Mint `#58F6B1` (primary actions and growth figures), light text `#F4F2FA`. The CSS keeps its original token names (`--ztr-teal` = ink, `--ztr-pearl` = light text, `--ztr-lime` = mint) and adds `--ztr-violet`.
+**Palette:** Blue `#0593C6` (accent, hero gradient, large figures) and White `#FCFFFF` (base), with neutral ink `#0A0F12` and greys. Text and buttons use the same blue at an accessible depth, `#0477A1` (`--ztr-blue-ink`). Legacy token names (`--ztr-teal`, `--ztr-pearl`, `--ztr-lime`) still resolve.
 
 Motion follows one rule: **it must explain, guide or confirm**. Everything respects
 `prefers-reduced-motion` (state changes stay, movement goes) and works without JavaScript.
@@ -181,7 +181,7 @@ Events are pushed to `window.dataLayer` (GTM) and sent with `gtag()` when GA4 is
 | `contact_click` | Email / phone links | `cta_location`, `cta_label` |
 | `section_view` | Section ≥35% visible (once) | `section_name` |
 | `tab_select` | Case studies, shift, industries | `component`, `tab_name` |
-| `service_expand` | First expand per service | `service_name` |
+| `service_expand` | Service row opened | `item_name` |
 | `evidence_open` | Case-study screenshot opened | `cta_location`, `cta_label` |
 | `faq_open` | FAQ opened | `faq_question` |
 | `form_start` | First keystroke in the form | `form_name` |

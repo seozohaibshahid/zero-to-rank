@@ -41,3 +41,16 @@ Feedback: the page still read as "AI-made", and it needed real proof.
 - Removed the "AI look": the animated fake search panel in the hero, glows, the grid backdrop, pulsing dots, shimmering placeholder lines, the typing caret and the illustrative chart.
 - Centred hero in the style of the references, with three real results underneath that open the matching case study.
 - Case studies replace the illustrative dashboard. Each one shows its headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence. Client names are withheld.
+
+## v1.3: restructured, clean and light
+
+Feedback: the page still looked AI-made, and the references weren't being followed closely enough. Its structure now follows the patterns those sites share:
+
+- **One typeface.** Medium-weight headings with tight tracking at modest sizes. The italic serif and the mono uppercase labels are gone. The second half of a heading is set in grey, as on Aovix and Knotch.
+- **Section openers.** A small sentence-case tag with a dot, then the heading, then one short grey line. Mostly centred.
+- **Flat surfaces.** Thin borders, 14–20px radii, soft grey bands. No glows, spotlights or brackets.
+- **Services** are numbered expandable rows (Aovix). The **process** is step cards and the comparison is two plain lists (Knotch). The **FAQ** is a contained card (Aovix).
+- **Palette:** Blue `#0593C6` and White `#FCFFFF`. The only gradient is the hero's blue "sky", following the sports-club reference you shared: a three-word headline with one highlighted word, small captions, a glass stat card and a bold CTA.
+- **Motion** is fade-up only, plus the statement fill.
+
+Lighthouse (mobile, local): 100 / 100 / 100 / 100, CLS 0.

@@ -210,15 +210,6 @@
 		return words;
 	};
 
-	if (!ZTR.reduced() && 'IntersectionObserver' in window) {
-		root.querySelectorAll('.ztr-h2[data-ztr-reveal]').forEach(function (h) {
-			ZTR.splitWords(h, 'ztr-w').forEach(function (w, i) {
-				w.style.setProperty('--w', i);
-			});
-			h.classList.add('is-split');
-		});
-	}
-
 	/* ---------------------------------------------------------------------
 	 * Card spotlight: a soft lime light follows the pointer across cards
 	 * marked [data-ztr-spot] (fine pointers only).
