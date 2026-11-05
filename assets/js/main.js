@@ -140,6 +140,20 @@
 		}
 		nav.classList.toggle('is-open', open);
 		toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+		var label = toggle.querySelector('[data-ztr-menu-label]');
+		if (label) {
+			if (!label.getAttribute('data-menu')) {
+				label.setAttribute('data-menu', label.textContent);
+			}
+			label.textContent = open ? (ZTR.data.i18n.close || 'Close') : label.getAttribute('data-menu');
+		}
+		if (ZTR.lenis) {
+			if (open) {
+				ZTR.lenis.stop();
+			} else {
+				ZTR.lenis.start();
+			}
+		}
 		document.documentElement.style.overflow = open ? 'hidden' : '';
 		if (open) {
 			var firstLink = menu && menu.querySelector('a');
@@ -231,12 +245,46 @@
 	}
 
 	/* ---------------------------------------------------------------------
-	 * Scroll reveals (Intersection Observer, one-shot).
+	 * Headings marked [data-ztr-words] rise word by word: each word gets its
+	 * own mask (.ztr-w) and a stagger index. Skipped with reduced motion.
 	 * ------------------------------------------------------------------ */
-	var revealEls = root.querySelectorAll('[data-ztr-reveal]');
+	var wordEls = root.querySelectorAll('[data-ztr-words]');
+	if (!ZTR.reduced()) {
+		wordEls.forEach(function (el) {
+			var words = ZTR.splitWords(el, 'ztr-w');
+			words.forEach(function (w, i) {
+				var inner = document.createElement('span');
+				inner.textContent = w.textContent;
+				inner.style.setProperty('--i', i);
+				w.textContent = '';
+				w.appendChild(inner);
+			});
+			el.classList.add('is-split');
+		});
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Scroll reveals (Intersection Observer, one-shot). Cards are marked
+	 * settled once they land, so pointer effects can take over transform.
+	 * ------------------------------------------------------------------ */
+	function settle(el) {
+		if (el.getAttribute('data-ztr-reveal') !== 'card') {
+			return;
+		}
+		var done = function () {
+			el.classList.add('is-settled');
+		};
+		if (ZTR.reduced()) {
+			done();
+			return;
+		}
+		window.setTimeout(done, 1400);
+	}
+	var revealEls = root.querySelectorAll('[data-ztr-reveal], [data-ztr-words]');
 	if (!('IntersectionObserver' in window) || ZTR.reduced()) {
 		revealEls.forEach(function (el) {
 			el.classList.add('is-in');
+			settle(el);
 		});
 	} else {
 		var revealIO = new IntersectionObserver(
@@ -244,6 +292,7 @@
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
 						entry.target.classList.add('is-in');
+						settle(entry.target);
 						revealIO.unobserve(entry.target);
 					}
 				});
@@ -254,6 +303,55 @@
 			revealIO.observe(el);
 		});
 	}
+
+	/* ---------------------------------------------------------------------
+	 * Count-up: figures marked [data-ztr-countup] count from zero when they
+	 * come into view, keeping their prefix, suffix, decimals and separators.
+	 * The final text is already in the HTML (no-JS, reduced motion, SEO).
+	 * ------------------------------------------------------------------ */
+	root.querySelectorAll('[data-ztr-countup]').forEach(function (el) {
+		var text = el.textContent.trim();
+		var m = text.match(/^([^0-9]*)([0-9][0-9,]*(?:\.[0-9]+)?)(.*)$/);
+		if (!m || ZTR.reduced()) {
+			return;
+		}
+		var prefix = m[1];
+		var raw = m[2];
+		var suffix = m[3];
+		var target = parseFloat(raw.replace(/,/g, ''));
+		var decimals = raw.indexOf('.') > -1 ? raw.split('.')[1].length : 0;
+		var commas = raw.indexOf(',') > -1;
+		var format = function (v) {
+			var s = v.toFixed(decimals);
+			if (commas) {
+				s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			return prefix + s + suffix;
+		};
+		el.textContent = format(0);
+		ZTR.onVisible(
+			el,
+			function () {
+				var inHero = !!el.closest('.ztr-hero');
+				var duration = 1600;
+				var delay = inHero ? 1100 : 0;
+				var start = null;
+				function frame(ts) {
+					if (!start) {
+						start = ts;
+					}
+					var p = Math.min(1, Math.max(0, (ts - start - delay) / duration));
+					var eased = 1 - Math.pow(1 - p, 4);
+					el.textContent = p >= 1 ? text : format(target * eased);
+					if (p < 1) {
+						window.requestAnimationFrame(frame);
+					}
+				}
+				window.requestAnimationFrame(frame);
+			},
+			{ threshold: 0.5 }
+		);
+	});
 
 	/* ---------------------------------------------------------------------
 	 * Scroll-spy: highlight the nav link for the section in view.
@@ -370,7 +468,15 @@
 		}
 		e.preventDefault();
 		var behavior = ZTR.reduced() ? 'auto' : 'smooth';
-		if (id === 'ztr-top') {
+		if (ZTR.lenis) {
+			ZTR.lenis.scrollTo(id === 'ztr-top' ? 0 : target, { offset: id === 'ztr-top' ? 0 : -96 });
+			if (id !== 'ztr-top') {
+				if (!target.hasAttribute('tabindex')) {
+					target.setAttribute('tabindex', '-1');
+				}
+				target.focus({ preventScroll: true });
+			}
+		} else if (id === 'ztr-top') {
 			window.scrollTo({ top: 0, behavior: behavior });
 		} else {
 			target.scrollIntoView({ behavior: behavior, block: 'start' });

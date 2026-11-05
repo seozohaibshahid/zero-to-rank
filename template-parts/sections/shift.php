@@ -13,14 +13,14 @@ $c = ztr_content( 'shift' );
 <section class="ztr-section ztr-shift" id="shift" aria-labelledby="ztr-shift-title" data-ztr-section="shift">
 	<div class="ztr-container">
 		<header class="ztr-head ztr-head--center">
-			<p class="ztr-eyebrow" data-ztr-reveal><span>05</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
-			<h2 class="ztr-h2" id="ztr-shift-title" data-ztr-reveal><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
+			<p class="ztr-eyebrow" data-ztr-reveal><span>06</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
+			<h2 class="ztr-h2" id="ztr-shift-title" data-ztr-words><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
 			<p class="ztr-lead" data-ztr-reveal><?php echo esc_html( $c['intro'] ); ?></p>
 		</header>
 
 		<div class="ztr-compare">
 			<?php foreach ( $c['modes'] as $key => $mode ) : ?>
-				<article class="ztr-compare__col ztr-compare__col--<?php echo esc_attr( $key ); ?>" data-ztr-reveal>
+				<article class="ztr-compare__col ztr-compare__col--<?php echo esc_attr( $key ); ?><?php echo 'ai' === $key ? ' is-dark' : ''; ?>" data-ztr-reveal="card" data-ztr-tilt>
 					<h3 class="ztr-compare__title"><?php echo esc_html( $mode['label'] ); ?></h3>
 					<p class="ztr-compare__query">“<?php echo esc_html( $mode['query'] ); ?>”</p>
 

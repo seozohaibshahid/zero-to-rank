@@ -11,24 +11,25 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 
 | # | Section | Interaction |
 |---|---------|-------------|
-| 01 | Navigation | Links left, logo centred, CTA right. White on the hero, a plain white bar once the page scrolls; hides on scroll-down. Full-screen mobile menu (Esc to close) |
-| 02 | Hero | The page's one gradient: a deep-to-bright blue panel with a three-word headline (Found. Answered. Cited. — one per channel, captions underneath), a glass card with two real results and a bold audit CTA. Edit `$c['hero']['words']` |
-| 03 | Trust bar | Channels we optimise for (marquee, pauses on hover/off-screen) + verifiable working principles. **No client logos** |
-| — | Statement | A point-of-view line that fills in word by word as it scrolls through the viewport (plain, fully legible text without JS or with reduced motion). Edit `$c['statement']` |
-| 04 | Case studies | Three real engagements (international B2B, industrial manufacturer, Canadian real estate) as tabs: headline metrics, AI-assistant sources from GA4, and the original Search Console / GA4 screenshots as evidence (open full size). Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
-| 05 | The visibility shift | Plain two-column comparison: how buyers search traditionally vs with AI, and what earns visibility in each |
-| 06 | Services | Numbered rows (SEO / AEO / GEO) that expand to show deliverables; the CTA pre-selects the audit focus |
-| 07 | Why Zero to Rank | Scroll-triggered count-up metrics + differentiators |
-| 08 | Process | Five step cards on a soft grey band |
-| 09 | Who we help | Industry tabs (arrow-key navigation) with challenge, approach and priority channels |
+| 01 | Navigation | Floating glass pill: logo left, section links in the middle (sliding indicator on hover and on the section in view), "Free audit" button right. Hides on scroll down, returns on scroll up. Full-screen dark menu on mobile (Esc to close) |
+| 02 | Hero | The blue gradient panel with the three-word headline (Found. Answered. Cited.), captions, a glass card of two real results and a bold audit CTA. Words rise out of a mask on load (CSS, first paint), the light drifts and follows the pointer, the card figures count up, and the words spread apart as the hero scrolls away. Edit `$c['hero']['words']` |
+| 03 | Ticker | A blue band of the platforms we optimise for. It drifts on its own and speeds up or reverses with scroll speed and direction. **No client logos** |
+| — | Results strip | Four real client figures (`$c['hero']['proof']`) that count up and link to their case study, with the working principles underneath |
+| — | Statement | A point-of-view line that fills in word by word as it scrolls (plain text without JS or with reduced motion). Edit `$c['statement']` |
+| 04 | Services | Bento grid: a dark feature card ("Visibility for the AI era" with SEO / AEO / GEO tiles), then one card per service with its deliverables. Cards tilt and catch a spotlight under the pointer; each CTA pre-selects the audit focus. Edit `$c['services']` (incl. `feature`) |
+| 05 | Case studies | Dark band. Three real engagements as tabs: headline metrics, AI-assistant sources from GA4 (bars grow in), and the original Search Console / GA4 screenshots as evidence. Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
+| 06 | The visibility shift | Traditional search (light card) vs AI-driven discovery (dark card) |
+| 07 | Process | Dark band with five step cards and a progress line that fills as you scroll |
+| 08 | Why Zero to Rank | The argument and platform chips on the left, the differentiators as a ruled list on the right |
+| 09 | Who we help | Industry tabs (arrow-key navigation): the challenge on a dark panel, the approach beside it |
 | — | Editor content | Anything typed in the page editor renders here (only if not empty) |
-| 10 | Free visibility audit | Inline validation, async submit, animated button feedback, no-JS fallback, spam protection, leads stored in WP admin |
-| 11 | FAQs | Contained card of question rows (native `<details>`, smooth height); also output as FAQPage schema |
-| 12 | Footer | Centred final CTA, services/explore/contact columns |
+| 10 | FAQs | Intro on the left, ruled questions on the right (native `<details>`, smooth height); also output as FAQPage schema |
+| 11 | Free visibility audit | A dark CTA box that grows into place on scroll, holding the copy and the form. Inline validation, async submit, no-JS fallback, spam protection, leads stored in WP admin |
+| 12 | Footer | Dark: brand + audit button, services / explore / contact columns, and a giant "Zero to Rank" wordmark whose letters rise as the page ends |
 
-Site-wide: one typeface (Geist), sentence-case section tags with a blue dot, flat cards with thin borders, and calm fade-up reveals. The statement line fills in as it scrolls.
+**Type** (all self-hosted, Latin only): Bricolage Grotesque for display, Manrope for body text, Instrument Serif italic for emphasis inside headings (`<em>`), JetBrains Mono for small labels.
 
-**Palette:** Blue `#0593C6` (accent, hero gradient, large figures) and White `#FCFFFF` (base), with neutral ink `#0A0F12` and greys. Text and buttons use the same blue at an accessible depth, `#0477A1` (`--ztr-blue-ink`). Legacy token names (`--ztr-teal`, `--ztr-pearl`, `--ztr-lime`) still resolve.
+**Palette:** Blue `#0593C6` (brand) and White `#FCFFFF`, on a cool off-white page `#F1F6F8`. Dark sections are a deep night blue `#020B12` lit by navy `#04263A` and indigo `#141A52` glows, with ice blue `#6FD6F7` as the signal colour (buttons, emphasis, figures). Blue-violet `#4A62E0` is used only inside gradients (the ticker band). Text and links on light backgrounds use `#0477A1` (`--ztr-blue-ink`) for contrast. The hero keeps its own blue sky gradient. Legacy token names (`--ztr-teal`, `--ztr-pearl`, `--ztr-lime`) still resolve.
 
 Motion follows one rule: **it must explain, guide or confirm**. Everything respects
 `prefers-reduced-motion` (state changes stay, movement goes) and works without JavaScript.
@@ -47,8 +48,8 @@ zero-to-rank/
 │   └── template-zero-to-rank.php "Zero to Rank — Landing" (selectable in the page editor)
 │
 ├── template-parts/sections/      One file per section (modular, reorderable)
-│   ├── header.php  hero.php  trust.php  statement.php  results.php  shift.php  services.php
-│   ├── why.php  process.php  industries.php  editor.php  audit.php  faq.php
+│   ├── header.php  hero.php  trust.php  stats.php  statement.php  services.php  results.php
+│   ├── shift.php  process.php  why.php  industries.php  editor.php  faq.php  audit.php
 │   └── footer.php
 │
 ├── inc/
@@ -62,9 +63,9 @@ zero-to-rank/
 │
 └── assets/
     ├── css/  main.css · animations.css · responsive.css
-    ├── js/   main.js · interactions.js · animations.js · vendor/ (GSAP 3.13 + ScrollTrigger)
+    ├── js/   main.js · interactions.js · animations.js · vendor/ (GSAP 3.13 + ScrollTrigger, Lenis 1.1.13)
     ├── images/  logo-mark.svg · logo-mark.png
-    └── fonts/   Geist (variable) · Geist Mono (variable) · Instrument Serif Italic — all OFL, self-hosted
+    └── fonts/   Bricolage Grotesque · Manrope · JetBrains Mono (variable) · Instrument Serif Italic — all OFL, self-hosted
 ```
 
 ---
@@ -150,7 +151,7 @@ add_filter( 'ztr_content', function ( $c ) {
 
 The brief rules out fabricated claims. The copy avoids them, but these statements describe how the agency works and must be true for you:
 
-- *Why Zero to Rank* metrics: **3** channels · **5** stages · **90-day** roadmaps (`$c['why']['metrics']`).
+- The four figures in the results strip and hero card (`$c['hero']['proof']`) must match the case-study evidence.
 - The *Statement* line (`$c['statement']`) — opinion, not a claim, but it should sound like you.
 - Trust principles, FAQ answers on timelines, pricing and access, and the audit promise ("reviewed by a person").
 - Case studies: every figure must match its evidence screenshot; client names stay withheld unless you have written permission.
@@ -195,8 +196,9 @@ Mark `generate_lead` as a **key event** in GA4.
 ## Performance & accessibility
 
 - No images on the critical path — all visuals are HTML/CSS/SVG. The LCP element is the hero headline, animated with CSS only (no JS wait).
-- Fonts self-hosted, `font-display: swap`, primary font preloaded. Only Latin subsets ship.
-- All scripts load with `defer`; GSAP (~45 KB gzipped incl. ScrollTrigger) is used only for scroll-linked effects and can be disabled with `add_filter( 'ztr_use_gsap', '__return_false' )` — everything falls back to Intersection Observer.
+- Fonts self-hosted, `font-display: swap`, display and body fonts preloaded. Only Latin subsets ship.
+- All scripts load with `defer`. GSAP (~45 KB gzipped incl. ScrollTrigger) drives the scroll-linked and pointer effects; disable it with `add_filter( 'ztr_use_gsap', '__return_false' )` and reveals, count-ups, the ticker and the statement fill fall back to Intersection Observer / CSS. Lenis smooth scrolling (desktop only) can be turned off with `add_filter( 'ztr_use_lenis', '__return_false' )`.
+- Pointer effects (magnetic buttons, card tilt, custom cursor) only run on fine pointers.
 - Animations use `transform`/`opacity`; marquee and hero autoplay pause off-screen. No layout shift (CLS 0).
 - Semantic HTML5 landmarks, one `h1`, ordered `h2`/`h3` hierarchy, skip link, visible focus rings, WAI-ARIA tabs/radios with arrow-key support, `aria-live` status messages.
 
@@ -221,5 +223,6 @@ WordPress 6.3+ (uses the script `strategy` argument) · PHP 7.4+.
 ## Credits & licences
 
 - Theme code: GPL-2.0-or-later.
-- [Geist & Geist Mono](https://vercel.com/font) and [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif): SIL Open Font License 1.1.
+- [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque), [Manrope](https://fonts.google.com/specimen/Manrope), [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) and [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif): SIL Open Font License 1.1.
 - [GSAP 3.13](https://gsap.com) with ScrollTrigger: free under the GSAP Standard License.
+- [Lenis 1.1.13](https://github.com/darkroomengineering/lenis): MIT.

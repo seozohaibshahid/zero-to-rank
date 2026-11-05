@@ -18,18 +18,19 @@ defined( 'ABSPATH' ) || exit;
 $ztr_sections = apply_filters(
 	'ztr_sections',
 	array(
-		'hero',        // 02
-		'trust',       // 03
+		'hero',        // 02 — Blue gradient hero.
+		'trust',       // 03 — Platform ticker.
+		'stats',       // Real results strip (count-up).
 		'statement',   // Point-of-view line (scroll-filled).
-		'results',     // 04
-		'shift',       // 05
-		'services',    // 06
-		'why',         // 07
-		'process',     // 08
-		'industries',  // 09
+		'services',    // 04 — Services bento.
+		'results',     // 05 — Case studies (dark).
+		'shift',       // 06 — The visibility shift.
+		'process',     // 07 — Process (dark band).
+		'why',         // 08 — Why Zero to Rank.
+		'industries',  // 09 — Who we help.
 		'editor',      // Optional: page editor content, only when the page has content.
-		'audit',       // 10
-		'faq',         // 11
+		'faq',         // 10 — FAQs.
+		'audit',       // 11 — Free audit (CTA box + form).
 	)
 );
 ?><!doctype html>
@@ -42,6 +43,7 @@ $ztr_sections = apply_filters(
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div class="ztr" id="ztr-top">
+	<div class="ztr-cursor" aria-hidden="true"><span class="ztr-cursor__dot"></span><span class="ztr-cursor__ring"></span></div>
 	<a class="ztr-skip" href="#ztr-main"><?php esc_html_e( 'Skip to content', 'zero-to-rank' ); ?></a>
 
 	<?php ztr_section( 'header' ); // 01 — Navigation. ?>

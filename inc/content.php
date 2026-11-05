@@ -72,15 +72,16 @@ function ztr_default_content() {
 			'lead'          => __( 'We help ambitious businesses grow through SEO, Answer Engine Optimization and Generative Engine Optimization.', 'zero-to-rank' ),
 			'primary_cta'   => __( 'Get your free visibility audit', 'zero-to-rank' ),
 			'secondary_cta' => __( 'See client results', 'zero-to-rank' ),
-			/* Real results shown under the hero; each links to its case study. */
+			/* Real results: the hero card shows the first two, the stats strip shows all four. Each links to its case study. */
 			'proof'         => array(
 				array( 'value' => '+144%', 'label' => __( 'search clicks in 6 months', 'zero-to-rank' ), 'who' => __( 'International B2B', 'zero-to-rank' ), 'href' => '#ztr-case-international' ),
 				array( 'value' => '16.8K', 'label' => __( 'clicks from a near-standing start', 'zero-to-rank' ), 'who' => __( 'Industrial manufacturer', 'zero-to-rank' ), 'href' => '#ztr-case-industrial' ),
 				array( 'value' => '322K', 'label' => __( 'impressions in Google AI features', 'zero-to-rank' ), 'who' => __( 'Real estate · Canada', 'zero-to-rank' ), 'href' => '#ztr-case-realestate' ),
+				array( 'value' => '1,797', 'label' => __( 'key events from AI-assistant visitors', 'zero-to-rank' ), 'who' => __( 'Real estate · Canada', 'zero-to-rank' ), 'href' => '#ztr-case-realestate' ),
 			),
 		),
 
-		/* 03 — Trust bar: channels covered + verifiable working principles (no client logos). */
+		/* 03 — Ticker (platforms) + working principles shown under the stats strip. No client logos. */
 		'trust'      => array(
 			'label'      => __( 'We build visibility where your customers now search', 'zero-to-rank' ),
 			'platforms'  => array( 'Google Search', 'Google AI Overviews', 'Google Maps', 'Bing', 'ChatGPT', 'Perplexity', 'Gemini', 'Microsoft Copilot', 'YouTube' ),
@@ -214,6 +215,11 @@ function ztr_default_content() {
 			'eyebrow' => __( 'Services', 'zero-to-rank' ),
 			'title'   => __( 'Three channels. <em>One visibility strategy.</em>', 'zero-to-rank' ),
 			'intro'   => __( 'Each discipline answers a different question your buyers ask. Together they make sure you show up however the question is asked.', 'zero-to-rank' ),
+			/* Large card that opens the services grid. */
+			'feature' => array(
+				'title' => __( 'Visibility for the <em>AI era</em>', 'zero-to-rank' ),
+				'text'  => __( 'Search no longer ends on a page of blue links. We make sure you rank on Google, get quoted in answer boxes and get cited when buyers ask ChatGPT, Gemini or Perplexity.', 'zero-to-rank' ),
+			),
 			'items'   => array(
 				array(
 					'key'          => 'seo',
@@ -242,16 +248,11 @@ function ztr_default_content() {
 			),
 		),
 
-		/* 07 — Why Zero to Rank. Metrics describe how we work; confirm before launch. */
+		/* 07 — Why Zero to Rank: differentiators (platform chips come from the trust list). */
 		'why'        => array(
 			'eyebrow'         => __( 'Why Zero to Rank', 'zero-to-rank' ),
 			'title'           => __( 'Built for how people <em>search now.</em>', 'zero-to-rank' ),
 			'intro'           => __( 'Most agencies bolt “AI” onto an old SEO playbook. We start from how decisions are actually made today and work back to the actions that move them.', 'zero-to-rank' ),
-			'metrics'         => array(
-				array( 'value' => 3, 'suffix' => '', 'label' => __( 'visibility channels, planned as one roadmap', 'zero-to-rank' ) ),
-				array( 'value' => 5, 'suffix' => '', 'label' => __( 'stages from audit to compounding growth', 'zero-to-rank' ) ),
-				array( 'value' => 90, 'suffix' => '-day', 'label' => __( 'priority roadmaps, reviewed every cycle', 'zero-to-rank' ) ),
-			),
 			'differentiators' => array(
 				array( 'icon' => 'layers', 'title' => __( 'Unified, not siloed', 'zero-to-rank' ), 'text' => __( 'SEO, AEO and GEO share one research base and one roadmap, so every page works across all three channels.', 'zero-to-rank' ) ),
 				array( 'icon' => 'target', 'title' => __( 'Commercial intent first', 'zero-to-rank' ), 'text' => __( 'We prioritise the searches and questions closest to a buying decision before chasing volume.', 'zero-to-rank' ) ),
@@ -375,8 +376,6 @@ function ztr_default_content() {
 
 		/* 12 — Footer. */
 		'footer'     => array(
-			'cta_title' => __( 'Ready to go from <em>zero to everywhere?</em>', 'zero-to-rank' ),
-			'cta_text'  => __( 'Start with a free visibility audit. We will show you exactly where you stand.', 'zero-to-rank' ),
 			'blurb'     => __( 'Zero to Rank is a search visibility agency helping ambitious businesses get found, chosen and cited across search engines, answer engines and AI assistants.', 'zero-to-rank' ),
 		),
 	);

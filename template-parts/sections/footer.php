@@ -1,6 +1,7 @@
 <?php
 /**
- * 12 — Footer: final CTA, navigation, contact details and wordmark.
+ * 12 — Footer: brand and audit link, navigation, contact details and a
+ * giant wordmark whose letters rise as the page ends.
  *
  * @package ZeroToRank
  */
@@ -14,17 +15,8 @@ $phone    = ztr_setting( 'phone' );
 $location = ztr_setting( 'location' );
 $profiles = ztr_social_profiles();
 ?>
-<footer class="ztr-footer" aria-labelledby="ztr-footer-title">
+<footer class="ztr-footer ztr-dark" aria-label="<?php esc_attr_e( 'Site footer', 'zero-to-rank' ); ?>">
 	<div class="ztr-container">
-		<div class="ztr-footer__cta" data-ztr-reveal>
-			<h2 class="ztr-h2" id="ztr-footer-title"><?php echo ztr_kses_inline( $c['cta_title'] ); // phpcs:ignore ?></h2>
-			<p class="ztr-lead"><?php echo esc_html( $c['cta_text'] ); ?></p>
-			<a class="ztr-btn ztr-btn--lime ztr-btn--lg" href="<?php echo esc_url( ztr_audit_url() ); ?>" <?php echo ztr_track_attrs( 'cta_click', 'footer', 'Free visibility audit' ); // phpcs:ignore ?>>
-				<span><?php esc_html_e( 'Get your free visibility audit', 'zero-to-rank' ); ?></span>
-				<?php echo ztr_icon( 'arrow-up-right' ); // phpcs:ignore ?>
-			</a>
-		</div>
-
 		<div class="ztr-footer__grid">
 			<div class="ztr-footer__brand">
 				<a class="ztr-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
@@ -32,6 +24,10 @@ $profiles = ztr_social_profiles();
 					<span class="ztr-logo__text">Zero <span class="ztr-logo__to">to</span> Rank</span>
 				</a>
 				<p><?php echo esc_html( $c['blurb'] ); ?></p>
+				<a class="ztr-btn ztr-btn--ghost ztr-footer__cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'footer', 'Free visibility audit' ); // phpcs:ignore ?>>
+					<span><?php esc_html_e( 'Get a free audit', 'zero-to-rank' ); ?></span>
+					<span class="ztr-btn__arr" aria-hidden="true"><?php echo ztr_icon( 'arrow-right' ); // phpcs:ignore ?></span>
+				</a>
 			</div>
 
 			<nav class="ztr-footer__col" aria-label="<?php esc_attr_e( 'Services', 'zero-to-rank' ); ?>">
@@ -89,6 +85,12 @@ $profiles = ztr_social_profiles();
 				<?php endif; ?>
 			</div>
 		</div>
+
+		<p class="ztr-footer__wordmark" aria-hidden="true" data-ztr-wordmark><?php
+		foreach ( preg_split( '//u', 'Zero to Rank', -1, PREG_SPLIT_NO_EMPTY ) as $ch ) {
+			echo ' ' === $ch ? '<span class="is-space"> </span>' : '<span>' . esc_html( $ch ) . '</span>';
+		}
+		?></p>
 
 		<div class="ztr-footer__legal">
 			<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ? get_bloginfo( 'name' ) : 'Zero to Rank' ); ?>. <?php esc_html_e( 'All rights reserved.', 'zero-to-rank' ); ?></p>

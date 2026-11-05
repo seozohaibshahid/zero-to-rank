@@ -1,42 +1,94 @@
 /* ==========================================================================
    Zero to Rank — animations.css
-   Calm motion only: content fades up into place, panels switch softly.
-   Everything is disabled under prefers-reduced-motion (bottom of file).
+   Motion that explains, guides or confirms:
+   - Hero: words rise out of a mask on first paint (pure CSS, good for LCP),
+     captions and the card follow, the light drifts slowly.
+   - Headings rise word by word, cards lift and settle, content fades up.
+   Scroll-linked effects (parallax, progress line, ticker, wordmark) live in
+   animations.js. Everything is disabled under prefers-reduced-motion.
    ========================================================================== */
 
 @keyframes ztr-rise {
-	from { opacity: 0; transform: translateY(16px); }
+	from { opacity: 0; transform: translateY(18px); }
 	to   { opacity: 1; transform: none; }
 }
+@keyframes ztr-word-rise {
+	from { transform: translateY(110%) rotate(3deg); }
+	to   { transform: none; }
+}
+@keyframes ztr-card-rise {
+	from { opacity: 0; transform: translateY(50px); }
+	to   { opacity: 1; transform: none; }
+}
+@keyframes ztr-drift-a {
+	0%   { transform: translate3d(0, 0, 0) scale(1); }
+	50%  { transform: translate3d(-6vw, 4vw, 0) scale(1.08); }
+	100% { transform: translate3d(-2vw, 8vw, 0) scale(0.96); }
+}
+@keyframes ztr-drift-b {
+	0%   { transform: translate3d(0, 0, 0) scale(1); }
+	50%  { transform: translate3d(7vw, -3vw, 0) scale(1.1); }
+	100% { transform: translate3d(3vw, -6vw, 0) scale(1); }
+}
+@keyframes ztr-streaks { to { transform: translateX(220px); } }
 
-/* Hero intro: pure CSS so it starts on first paint (good for LCP). */
-.ztr-hero [data-ztr-intro] { animation: ztr-rise 0.8s var(--ztr-ease) both; }
-.ztr-hero [data-ztr-intro="1"] { animation-delay: 0.08s; }
-.ztr-hero [data-ztr-intro="2"] { animation-delay: 0.16s; }
-.ztr-hero [data-ztr-intro="3"] { animation-delay: 0.24s; }
-.ztr-hero [data-ztr-intro="4"] { animation-delay: 0.32s; }
+/* Hero intro ------------------------------------------------------------- */
+.ztr-hero__word-text { animation: ztr-word-rise 1.3s var(--ztr-expo) both; animation-delay: calc(0.2s + var(--i, 0) * 0.14s); }
+.ztr-hero__caption { animation: ztr-rise 0.9s var(--ztr-expo) both; animation-delay: calc(0.75s + var(--i, 0) * 0.12s); }
+.ztr-hero [data-ztr-intro="0"] { animation: ztr-rise 0.9s var(--ztr-expo) 0.1s both; }
+.ztr-hero [data-ztr-intro="3"] { animation: ztr-rise 0.9s var(--ztr-expo) 1.05s both; }
+.ztr-hero .ztr-hero__card[data-ztr-intro] { animation: ztr-card-rise 1.1s var(--ztr-expo) 0.95s both; }
+.ztr-hero .ztr-hero__cta[data-ztr-intro] { animation: ztr-card-rise 1s var(--ztr-expo) 1.1s both; }
+.ztr-hero__panel::before { animation: ztr-streaks 26s linear infinite alternate; }
+.ztr-hero__orb--a { animation: ztr-drift-a 18s ease-in-out infinite alternate; }
+.ztr-hero__orb--b { animation: ztr-drift-b 22s ease-in-out infinite alternate; }
 
-/* Scroll reveals (only with JS, so no-JS visitors always see content). */
+/* Scroll reveals (only with JS, so no-JS visitors always see content). ---- */
 .ztr-js [data-ztr-reveal] {
 	opacity: 0;
-	transform: translateY(16px);
-	transition: opacity 0.7s var(--ztr-ease), transform 0.7s var(--ztr-ease);
-	transition-delay: calc(var(--d, 0) * 70ms);
+	transform: translateY(24px);
+	transition: opacity 0.9s var(--ztr-expo), transform 0.9s var(--ztr-expo);
+	transition-delay: calc(var(--d, 0) * 80ms);
+}
+.ztr-js [data-ztr-reveal="card"] {
+	transform: translateY(70px) scale(0.96);
+	transition-duration: 1.1s, 1.1s;
+	transition-delay: calc(var(--d, 0) * 90ms);
 }
 .ztr-js [data-ztr-reveal].is-in { opacity: 1; transform: none; }
+/* Cards hand transform over to the tilt effect once they have settled. */
+.ztr-js [data-ztr-reveal="card"].is-settled { transition: border-color 0.3s ease; }
 
-/* Marquee */
-@keyframes ztr-marquee { to { transform: translateX(-100%); } }
-.ztr-marquee__track { animation: ztr-marquee 40s linear infinite; }
-.ztr-marquee:hover .ztr-marquee__track,
-.ztr-marquee.is-paused .ztr-marquee__track { animation-play-state: paused; }
+/* Headings: each word rises out of its own mask. */
+.ztr-js [data-ztr-words]:not(.is-split) { opacity: 0; }
+.ztr-js [data-ztr-words].is-split .ztr-w > span {
+	transform: translateY(110%) rotate(4deg);
+	transition: transform 0.95s var(--ztr-expo);
+	transition-delay: calc(var(--i, 0) * 40ms);
+}
+.ztr-js [data-ztr-words].is-split.is-in .ztr-w > span { transform: none; }
+
+/* Ticker: CSS drift by default; animations.js drives it (scroll-reactive)
+   when GSAP is available. Pauses on hover and while off-screen. */
+@keyframes ztr-marquee { to { transform: translateX(-50%); } }
+.ztr-ticker__track { animation: ztr-marquee 40s linear infinite; }
+.ztr-ticker:hover .ztr-ticker__track,
+.ztr-ticker__viewport.is-paused .ztr-ticker__track { animation-play-state: paused; }
+.ztr-ticker__track.is-driven { animation: none; }
+
+/* Case-study source bars grow when their panel is shown. */
+.ztr-case:not([hidden]) .ztr-case__src-bar i { animation: ztr-bar 1.1s var(--ztr-expo) 0.2s both; }
+@keyframes ztr-bar { from { transform: scaleX(0); } }
 
 /* Tab panels */
 .ztr-case:not([hidden]),
-.ztr-ind__panel:not([hidden]) { animation: ztr-rise 0.5s var(--ztr-ease) both; }
+.ztr-ind__panel:not([hidden]) { animation: ztr-rise 0.6s var(--ztr-expo) both; }
 
 /* Accordion height is animated by JS; the content eases in. */
-.ztr-acc[open] .ztr-acc__a > * { animation: ztr-rise 0.45s var(--ztr-ease) both; }
+.ztr-acc[open] .ztr-acc__a > * { animation: ztr-rise 0.5s var(--ztr-expo) both; }
+
+/* Process line: static and full without JS; animations.js scrubs it. */
+.ztr-steps__line.is-scrubbed { transform: scaleX(0); }
 
 /* Form feedback */
 @keyframes ztr-spin { to { transform: rotate(360deg); } }
@@ -59,8 +111,12 @@
 		scroll-behavior: auto !important;
 	}
 	html:has(body.ztr-landing) { scroll-behavior: auto; }
-	.ztr-js [data-ztr-reveal] { opacity: 1; transform: none; }
-	.ztr-marquee__track { animation: none !important; }
-	.ztr-marquee { overflow-x: auto; }
-	.ztr-marquee__track[aria-hidden="true"] { display: none; }
+	.ztr-js [data-ztr-reveal], .ztr-js [data-ztr-words]:not(.is-split) { opacity: 1; transform: none; }
+	.ztr-js [data-ztr-words].is-split .ztr-w > span { transform: none; }
+	.ztr-hero__panel::before, .ztr-hero__orb { animation: none !important; }
+	.ztr-steps__line.is-scrubbed { transform: none; }
+	.ztr-cursor { display: none !important; }
+	.ztr-ticker__track { animation: none !important; }
+	.ztr-ticker__viewport { overflow-x: auto; }
+	.ztr-ticker__set + .ztr-ticker__set { display: none; }
 }

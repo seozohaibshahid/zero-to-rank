@@ -27,12 +27,12 @@ $ztr_img = static function ( $src ) {
 	return preg_match( '#^https?://#', $src ) ? $src : ztr_asset( $src );
 };
 ?>
-<section class="ztr-section ztr-results" id="results" aria-labelledby="ztr-results-title" data-ztr-section="results">
+<section class="ztr-section ztr-results ztr-dark" id="results" aria-labelledby="ztr-results-title" data-ztr-section="results">
 	<div class="ztr-container">
 		<header class="ztr-head ztr-head--split">
 			<div>
-				<p class="ztr-eyebrow" data-ztr-reveal><span>04</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
-				<h2 class="ztr-h2" id="ztr-results-title" data-ztr-reveal><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
+				<p class="ztr-eyebrow" data-ztr-reveal><span>05</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
+				<h2 class="ztr-h2" id="ztr-results-title" data-ztr-words><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
 			</div>
 			<p class="ztr-lead" data-ztr-reveal><?php echo esc_html( $c['intro'] ); ?></p>
 		</header>

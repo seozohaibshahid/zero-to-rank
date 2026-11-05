@@ -18,7 +18,7 @@ $names = array(
 	<div class="ztr-container">
 		<header class="ztr-head ztr-head--center">
 			<p class="ztr-eyebrow" data-ztr-reveal><span>09</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
-			<h2 class="ztr-h2" id="ztr-industries-title" data-ztr-reveal><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
+			<h2 class="ztr-h2" id="ztr-industries-title" data-ztr-words><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
 		</header>
 
 		<div class="ztr-ind" data-ztr-tabs="industries" data-ztr-reveal>
@@ -32,7 +32,7 @@ $names = array(
 
 			<?php foreach ( $c['items'] as $i => $item ) : ?>
 				<div class="ztr-ind__panel" id="ztr-ind-panel-<?php echo esc_attr( $item['key'] ); ?>" role="tabpanel" aria-labelledby="ztr-ind-tab-<?php echo esc_attr( $item['key'] ); ?>" tabindex="0" data-ztr-panel<?php echo 0 !== $i ? ' hidden' : ''; ?>>
-					<div class="ztr-ind__challenge">
+					<div class="ztr-ind__challenge is-dark">
 						<p class="ztr-mono"><?php esc_html_e( 'The challenge', 'zero-to-rank' ); ?></p>
 						<h3 class="ztr-h3"><?php echo esc_html( $item['challenge'] ); ?></h3>
 						<div class="ztr-ind__channels">

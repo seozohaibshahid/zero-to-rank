@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ZTR_VERSION', '1.3.0' );
+define( 'ZTR_VERSION', '1.4.0' );
 define( 'ZTR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'ZTR_URI', trailingslashit( get_stylesheet_directory_uri() ) );
 define( 'ZTR_TEMPLATE', 'page-templates/template-zero-to-rank.php' );

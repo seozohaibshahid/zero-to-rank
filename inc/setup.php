@@ -58,6 +58,12 @@ function ztr_enqueue_assets() {
 		$anim_dep = array( 'zero-to-rank-scrolltrigger' );
 	}
 
+	// Lenis smooth scrolling (self-hosted). Disable with: add_filter( 'ztr_use_lenis', '__return_false' );
+	if ( (bool) apply_filters( 'ztr_use_lenis', true ) ) {
+		wp_enqueue_script( 'zero-to-rank-lenis', ztr_asset( 'js/vendor/lenis.min.js' ), array(), '1.1.13', $defer );
+		$anim_dep[] = 'zero-to-rank-lenis';
+	}
+
 	wp_enqueue_script( 'zero-to-rank-main', ztr_asset( 'js/main.js' ), array(), $ver( 'js/main.js' ), $defer );
 	wp_enqueue_script( 'zero-to-rank-interactions', ztr_asset( 'js/interactions.js' ), array( 'zero-to-rank-main' ), $ver( 'js/interactions.js' ), $defer );
 	wp_enqueue_script( 'zero-to-rank-animations', ztr_asset( 'js/animations.js' ), array_merge( array( 'zero-to-rank-main' ), $anim_dep ), $ver( 'js/animations.js' ), $defer );
@@ -69,6 +75,7 @@ function ztr_enqueue_assets() {
 			'restUrl' => esc_url_raw( rest_url( 'ztr/v1/audit' ) ),
 			'i18n'    => array(
 				'sending'  => __( 'Sending…', 'zero-to-rank' ),
+				'close'    => __( 'Close', 'zero-to-rank' ),
 				'error'    => __( 'Something went wrong. Please try again, or email us directly.', 'zero-to-rank' ),
 				'required' => __( 'This field is required.', 'zero-to-rank' ),
 				'email'    => __( 'Please enter a valid email address.', 'zero-to-rank' ),
@@ -136,7 +143,7 @@ add_action(
 );
 
 /**
- * Preload the primary font so the hero headline (the LCP element) renders fast.
+ * Preload the display and body fonts so the hero headline (the LCP element) renders fast.
  */
 add_action(
 	'wp_head',
@@ -144,10 +151,13 @@ add_action(
 		if ( ! ztr_is_landing() ) {
 			return;
 		}
-		printf(
-			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
-			esc_url( ztr_asset( 'fonts/geist-latin-wght-normal.woff2' ) )
-		);
+		// Display face (hero headline, the LCP element) and body face.
+		foreach ( array( 'fonts/bricolage-grotesque-latin-var.woff2', 'fonts/manrope-latin-var.woff2' ) as $font ) {
+			printf(
+				'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+				esc_url( ztr_asset( $font ) )
+			);
+		}
 		if ( ! has_site_icon() ) {
 			printf( '<link rel="icon" href="%s" type="image/svg+xml">' . "\n", esc_url( ztr_asset( 'images/logo-mark.svg' ) ) );
 		}
