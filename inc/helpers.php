@@ -99,16 +99,18 @@ function ztr_icon( $name, $class = '' ) {
 }
 
 /**
- * The brand mark: a zero ring with a rising rank bar.
+ * The brand mark: a zero ring holding three rising rank bars.
+ * The ring takes the text colour; the bars are ice blue.
  *
  * @param string $class Extra class.
  * @return string
  */
 function ztr_logo_mark( $class = '' ) {
 	return '<svg class="ztr-logo__mark ' . esc_attr( $class ) . '" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" focusable="false">'
-		. '<circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="4"/>'
-		. '<path d="M26 26 35 9" stroke="#58F6B1" stroke-width="4.5" stroke-linecap="round"/>'
-		. '<circle cx="35" cy="9" r="3.6" fill="#58F6B1"/>'
+		. '<circle cx="20" cy="20" r="15.5" fill="none" stroke="currentColor" stroke-width="4"/>'
+		. '<rect x="11.6" y="21.5" width="4.2" height="6.5" rx="1.4" fill="#6FD6F7" opacity=".55"/>'
+		. '<rect x="17.9" y="17" width="4.2" height="11" rx="1.4" fill="#6FD6F7" opacity=".8"/>'
+		. '<rect x="24.2" y="12" width="4.2" height="16" rx="1.4" fill="#6FD6F7"/>'
 		. '</svg>';
 }
 
