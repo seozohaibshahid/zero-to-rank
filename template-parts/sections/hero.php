@@ -12,9 +12,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$c     = ztr_content( 'hero' );
-$words = ! empty( $c['words'] ) ? $c['words'] : array();
-$proof = ! empty( $c['proof'] ) ? array_slice( $c['proof'], 0, 2 ) : array();
+$c     = ztr_args( 'hero', isset( $args ) ? $args : array() );
+$words = ! empty( $c['words'] ) ? array_values( (array) $c['words'] ) : array();
+$proof = ! empty( $c['proof'] ) ? array_slice( array_values( (array) $c['proof'] ), 0, 2 ) : array();
+$cta   = ! empty( $c['cta_link'] ) ? $c['cta_link'] : ztr_audit_url();
 ?>
 <section class="ztr-hero" aria-labelledby="ztr-hero-title" data-ztr-section="hero">
 	<div class="ztr-hero__panel" data-ztr-hero>
@@ -36,7 +37,7 @@ $proof = ! empty( $c['proof'] ) ? array_slice( $c['proof'], 0, 2 ) : array();
 
 			<div class="ztr-hero__foot">
 				<?php if ( $proof ) : ?>
-					<a class="ztr-hero__card" href="#results" data-ztr-intro="4" <?php echo ztr_track_attrs( 'cta_click', 'hero_card', 'Client results' ); // phpcs:ignore ?>>
+					<a class="ztr-hero__card" href="<?php echo esc_url( ztr_link( '#results' ) ); ?>" data-ztr-intro="4" <?php echo ztr_track_attrs( 'cta_click', 'hero_card', 'Client results' ); // phpcs:ignore ?>>
 						<span class="ztr-hero__card-head">
 							<span class="ztr-hero__card-title"><?php esc_html_e( 'Real client results', 'zero-to-rank' ); ?></span>
 							<span class="ztr-hero__card-dots" aria-hidden="true"></span>
@@ -57,7 +58,7 @@ $proof = ! empty( $c['proof'] ) ? array_slice( $c['proof'], 0, 2 ) : array();
 					<?php echo esc_html( $c['lead'] ); ?>
 				</p>
 
-				<a class="ztr-hero__cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" data-ztr-intro="4" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'hero_primary', $c['primary_cta'] ); // phpcs:ignore ?>>
+				<a class="ztr-hero__cta" href="<?php echo esc_url( ztr_link( $cta ) ); ?>" data-ztr-intro="4" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'hero_primary', $c['primary_cta'] ); // phpcs:ignore ?>>
 					<span><?php echo esc_html( $c['primary_cta'] ); ?></span>
 					<?php echo ztr_icon( 'arrow-up-right' ); // phpcs:ignore ?>
 				</a>

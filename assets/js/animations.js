@@ -5,7 +5,7 @@
  *   - Lenis smooth scrolling (self-hosted), synced with GSAP ScrollTrigger
  *   - Hero: words spread apart and the light sinks as the panel scrolls away;
  *     the light follows the pointer
- *   - Ticker that drifts and reacts to scroll speed and direction
+ *   - Stacked case-study cards that sink back as the next one covers them
  *   - Statement line that fills word by word
  *   - Process progress line, CTA box scale-in, footer wordmark letters rising
  *   - Magnetic buttons, card tilt + spotlight, custom cursor (fine pointers)
@@ -106,9 +106,71 @@
 		});
 	})();
 
-	if (reduced) {
-		return; // Everything below is movement only.
+	if (reduced || ZTR.editor) {
+		return; // Everything below is movement only (and off in the Elementor editor).
 	}
+
+	/* =====================================================================
+	 * Case studies: stacked cards. Each card sticks (CSS); as the next card
+	 * slides up over it, the covered card sinks back and dims slightly.
+	 * ================================================================== */
+	(function stack() {
+		var cards = Array.prototype.slice.call(root.querySelectorAll('[data-ztr-scard]'));
+		if (cards.length < 2) {
+			return;
+		}
+		var wide = window.matchMedia('(min-width: 961px)');
+		var ticking = false;
+		var tops = [];
+		// A card taller than the space under the nav pins higher, so its
+		// bottom edge stays on screen while the next card slides up.
+		function measure() {
+			var vh = window.innerHeight;
+			tops = cards.map(function (card, i) {
+				var stick = 100 + i * 24;
+				var fit = vh - card.offsetHeight - 16;
+				var top = wide.matches ? Math.min(stick, fit) : stick;
+				card.style.top = wide.matches && top !== stick ? top + 'px' : '';
+				return top;
+			});
+		}
+		function update() {
+			ticking = false;
+			var vh = window.innerHeight;
+			cards.forEach(function (card, i) {
+				var next = cards[i + 1];
+				if (!next || !wide.matches) {
+					card.style.transform = '';
+					card.style.filter = '';
+					return;
+				}
+				var stick = tops[i];
+				var gap = next.getBoundingClientRect().top - stick;
+				var p = Math.min(1, Math.max(0, 1 - gap / (vh * 0.6)));
+				card.style.transform = p > 0 ? 'scale(' + (1 - p * 0.06).toFixed(4) + ')' : '';
+				card.style.filter = p > 0 ? 'brightness(' + (1 - p * 0.25).toFixed(3) + ')' : '';
+			});
+		}
+		function request() {
+			if (!ticking) {
+				ticking = true;
+				window.requestAnimationFrame(update);
+			}
+		}
+		window.addEventListener('scroll', request, { passive: true });
+		window.addEventListener('resize', function () {
+			measure();
+			request();
+		});
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				measure();
+				request();
+			});
+		}
+		measure();
+		update();
+	})();
 
 	/* =====================================================================
 	 * Smooth scrolling (Lenis), driven by GSAP's ticker when present.
@@ -131,53 +193,6 @@
 			})(0);
 		}
 	}
-
-	/* =====================================================================
-	 * Ticker: constant drift, faster with scroll speed, flips with direction.
-	 * ================================================================== */
-	(function ticker() {
-		var track = root.querySelector('[data-ztr-ticker]');
-		if (!track || !hasGsap) {
-			return;
-		}
-		var viewport = track.parentNode;
-		var set = track.querySelector('.ztr-ticker__set');
-		var x = 0;
-		var dir = -1;
-		var boost = 0;
-		var hover = false;
-		track.classList.add('is-driven');
-		viewport.addEventListener('mouseenter', function () {
-			hover = true;
-		});
-		viewport.addEventListener('mouseleave', function () {
-			hover = false;
-		});
-		ST.create({
-			onUpdate: function (self) {
-				dir = self.direction === 1 ? -1 : 1;
-				boost = Math.min(Math.abs(self.getVelocity()) / 220, 14);
-			}
-		});
-		gsap.ticker.add(function () {
-			if (viewport.classList.contains('is-paused')) {
-				return;
-			}
-			var w = set.offsetWidth;
-			if (!w) {
-				return;
-			}
-			x += dir * ((hover ? 0.25 : 1) + boost);
-			boost *= 0.92;
-			if (x <= -w) {
-				x += w;
-			}
-			if (x > 0) {
-				x -= w;
-			}
-			gsap.set(track, { x: x });
-		});
-	})();
 
 	if (!hasGsap) {
 		return;

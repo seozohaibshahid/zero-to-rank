@@ -1,14 +1,13 @@
 <?php
 /**
- * Template Name: Zero to Rank — Landing
+ * Template Name: Zero to Rank — Landing (classic)
  * Template Post Type: page
  *
- * Full-canvas landing page. Renders its own header and footer so the parent
- * theme's chrome cannot interfere, while still calling wp_head()/wp_footer()
- * so plugins (analytics, caching, consent, SEO) keep working.
+ * The landing page rendered straight from PHP (no page builder). Content
+ * comes from inc/content.php. To edit sections visually instead, use the
+ * "Zero to Rank — Canvas (Elementor)" template and the Zero to Rank widgets.
  *
- * Sections are modular template parts in template-parts/sections/. Reorder,
- * remove or add sections with the `ztr_sections` filter.
+ * Reorder, remove or add sections with the `ztr_sections` filter.
  *
  * @package ZeroToRank
  */
@@ -19,12 +18,11 @@ $ztr_sections = apply_filters(
 	'ztr_sections',
 	array(
 		'hero',        // 02 — Blue gradient hero.
-		'trust',       // 03 — Platform ticker.
-		'stats',       // Real results strip (count-up).
+		'logos',       // 03 — Platform logo strip.
 		'statement',   // Point-of-view line (scroll-filled).
-		'services',    // 04 — Services bento.
-		'results',     // 05 — Case studies (dark).
-		'shift',       // 06 — The visibility shift.
+		'results',     // 04 — Case studies as stacked cards + CTA band.
+		'services',    // 05 — Services as expanding panels.
+		'shift',       // 06 — The visibility shift (head-to-head).
 		'process',     // 07 — Process (dark band).
 		'why',         // 08 — Why Zero to Rank.
 		'industries',  // 09 — Who we help.
@@ -33,34 +31,12 @@ $ztr_sections = apply_filters(
 		'audit',       // 11 — Free audit (CTA box + form).
 	)
 );
-?><!doctype html>
-<html <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<div class="ztr" id="ztr-top">
-	<div class="ztr-cursor" aria-hidden="true"><span class="ztr-cursor__dot"></span><span class="ztr-cursor__ring"></span></div>
-	<a class="ztr-skip" href="#ztr-main"><?php esc_html_e( 'Skip to content', 'zero-to-rank' ); ?></a>
 
-	<?php ztr_section( 'header' ); // 01 — Navigation. ?>
-
-	<main id="ztr-main" class="ztr-main" tabindex="-1">
-		<?php
-		while ( have_posts() ) {
-			the_post();
-			foreach ( $ztr_sections as $ztr_slug ) {
-				ztr_section( $ztr_slug );
-			}
-		}
-		?>
-	</main>
-
-	<?php ztr_section( 'footer' ); // 12 — Footer. ?>
-</div>
-<?php wp_footer(); ?>
-</body>
-</html>
+ztr_shell_open();
+while ( have_posts() ) {
+	the_post();
+	foreach ( $ztr_sections as $ztr_slug ) {
+		ztr_section( $ztr_slug );
+	}
+}
+ztr_shell_close();

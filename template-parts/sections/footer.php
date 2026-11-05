@@ -24,7 +24,7 @@ $profiles = ztr_social_profiles();
 					<span class="ztr-logo__text">Zero <span class="ztr-logo__to">to</span> Rank</span>
 				</a>
 				<p><?php echo esc_html( $c['blurb'] ); ?></p>
-				<a class="ztr-btn ztr-btn--ghost ztr-footer__cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'footer', 'Free visibility audit' ); // phpcs:ignore ?>>
+				<a class="ztr-btn ztr-btn--ghost ztr-footer__cta" href="<?php echo esc_url( ztr_link( ztr_audit_url() ) ); ?>" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'footer', 'Free visibility audit' ); // phpcs:ignore ?>>
 					<span><?php esc_html_e( 'Get a free audit', 'zero-to-rank' ); ?></span>
 					<span class="ztr-btn__arr" aria-hidden="true"><?php echo ztr_icon( 'arrow-right' ); // phpcs:ignore ?></span>
 				</a>
@@ -34,7 +34,7 @@ $profiles = ztr_social_profiles();
 				<p class="ztr-footer__heading"><?php esc_html_e( 'Services', 'zero-to-rank' ); ?></p>
 				<ul>
 					<?php foreach ( $services['items'] as $s ) : ?>
-						<li><a href="#service-<?php echo esc_attr( $s['key'] ); ?>"><?php echo esc_html( $s['name'] ); ?></a></li>
+						<li><a href="<?php echo esc_url( ztr_link( '#service-' . $s['key'] ) ); ?>"><?php echo esc_html( $s['name'] ); ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</nav>
@@ -54,9 +54,9 @@ $profiles = ztr_social_profiles();
 				} else {
 					echo '<ul>';
 					foreach ( ztr_content( 'nav' ) as $item ) {
-						printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( $item['url'] ), esc_html( $item['label'] ) );
+						printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( ztr_link( $item['url'] ) ), esc_html( $item['label'] ) );
 					}
-					printf( '<li><a href="#shift">%s</a></li>', esc_html__( 'The visibility shift', 'zero-to-rank' ) );
+					printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( ztr_link( '#shift' ) ), esc_html__( 'The visibility shift', 'zero-to-rank' ) );
 					echo '</ul>';
 				}
 				?>
@@ -74,7 +74,7 @@ $profiles = ztr_social_profiles();
 					<?php if ( $location ) : ?>
 						<li><?php echo ztr_icon( 'pin' ); // phpcs:ignore ?><span><?php echo esc_html( $location ); ?></span></li>
 					<?php endif; ?>
-					<li><?php echo ztr_icon( 'arrow-up-right' ); // phpcs:ignore ?><a href="<?php echo esc_url( ztr_audit_url() ); ?>"><?php esc_html_e( 'Request a free audit', 'zero-to-rank' ); ?></a></li>
+					<li><?php echo ztr_icon( 'arrow-up-right' ); // phpcs:ignore ?><a href="<?php echo esc_url( ztr_link( ztr_audit_url() ) ); ?>"><?php esc_html_e( 'Request a free audit', 'zero-to-rank' ); ?></a></li>
 				</ul>
 				<?php if ( $profiles ) : ?>
 					<ul class="ztr-footer__social">

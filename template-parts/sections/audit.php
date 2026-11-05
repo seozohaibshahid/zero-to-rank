@@ -1,35 +1,31 @@
 <?php
 /**
- * 10 — Conversion: free visibility audit form.
- * Processing, validation and spam protection live in inc/form.php.
+ * 11 — Conversion: the free visibility audit in a dark CTA box. Renders the
+ * Fluent Form chosen in the widget or the Customizer; falls back to the
+ * built-in form (processing, validation and spam protection in inc/form.php).
  *
  * @package ZeroToRank
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$c = ztr_content( 'audit' );
+$c       = ztr_args( 'audit', isset( $args ) ? $args : array() );
+$anchor  = ! empty( $c['anchor'] ) ? $c['anchor'] : 'audit';
+$form_id = ztr_audit_form_id( isset( $c['form_id'] ) ? $c['form_id'] : 0 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only status flag after redirect.
 $status = isset( $_GET['ztr_audit'] ) ? sanitize_key( wp_unslash( $_GET['ztr_audit'] ) ) : '';
 $email  = ztr_setting( 'email' );
 ?>
-<section class="ztr-section ztr-audit" id="audit" aria-labelledby="ztr-audit-title" data-ztr-section="audit">
+<section class="ztr-section ztr-audit" id="<?php echo esc_attr( $anchor ); ?>" aria-labelledby="ztr-audit-title" data-ztr-section="audit">
 	<div class="ztr-container">
 		<div class="ztr-audit__box ztr-dark" data-ztr-cta-box>
 			<span class="ztr-audit__orb" aria-hidden="true" data-ztr-cta-orb></span>
 			<div class="ztr-audit__layout">
 				<div class="ztr-audit__copy">
-					<p class="ztr-eyebrow" data-ztr-reveal><span>11</span><?php echo esc_html( $c['eyebrow'] ); ?></p>
+					<p class="ztr-eyebrow" data-ztr-reveal><span></span><?php echo esc_html( $c['eyebrow'] ); ?></p>
 					<h2 class="ztr-h2" id="ztr-audit-title" data-ztr-words><?php echo ztr_kses_inline( $c['title'] ); // phpcs:ignore ?></h2>
 					<p class="ztr-lead" data-ztr-reveal><?php echo esc_html( $c['intro'] ); ?></p>
-					<p class="ztr-audit__kicker" data-ztr-reveal><?php esc_html_e( 'Your audit covers', 'zero-to-rank' ); ?></p>
-					<ul class="ztr-audit__list">
-						<?php foreach ( $c['includes'] as $i => $item ) : ?>
-							<li data-ztr-reveal style="--d:<?php echo (int) $i; ?>"><?php echo ztr_icon( 'check' ); // phpcs:ignore ?><span><?php echo esc_html( $item ); ?></span></li>
-						<?php endforeach; ?>
-					</ul>
-					<p class="ztr-audit__reassure" data-ztr-reveal><?php echo ztr_icon( 'shield' ); // phpcs:ignore ?><span><?php echo esc_html( $c['reassure'] ); ?></span></p>
 				</div>
 
 				<div class="ztr-audit__card" data-ztr-reveal="card">
@@ -37,6 +33,9 @@ $email  = ztr_setting( 'email' );
 						<p class="ztr-h3"><?php esc_html_e( 'Request your free audit', 'zero-to-rank' ); ?></p>
 						<span class="ztr-chip ztr-chip--glow"><?php esc_html_e( 'Takes about a minute', 'zero-to-rank' ); ?></span>
 					</div>
+					<?php if ( $form_id ) : ?>
+						<div class="ztr-ff"><?php echo do_shortcode( '[fluentform id="' . (int) $form_id . '"]' ); // phpcs:ignore WordPress.Security.EscapeOutput -- Fluent Forms output. ?></div>
+					<?php else : ?>
 					<form class="ztr-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" novalidate data-ztr-form>
 						<input type="hidden" name="action" value="ztr_audit">
 						<input type="hidden" name="ztr_ts" value="<?php echo esc_attr( ztr_form_token() ); ?>">
@@ -132,6 +131,10 @@ $email  = ztr_setting( 'email' );
 						<h3 class="ztr-h3"><?php esc_html_e( 'Request received.', 'zero-to-rank' ); ?></h3>
 						<p data-ztr-success-text><?php echo esc_html( $c['success'] ); ?></p>
 					</div>
+					<?php endif; ?>
+					<?php if ( ! empty( $c['reassure'] ) ) : ?>
+						<p class="ztr-audit__reassure"><?php echo ztr_icon( 'shield' ); // phpcs:ignore ?><span><?php echo esc_html( $c['reassure'] ); ?></span></p>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

@@ -32,20 +32,20 @@ defined( 'ABSPATH' ) || exit;
 				} else {
 					echo '<ul class="ztr-nav__list">';
 					foreach ( ztr_content( 'nav' ) as $item ) {
-						printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( $item['url'] ), esc_html( $item['label'] ) );
+						printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( ztr_link( $item['url'] ) ), esc_html( $item['label'] ) );
 					}
 					echo '</ul>';
 				}
 				?>
 				<span class="ztr-nav__indicator" aria-hidden="true" data-ztr-nav-indicator></span>
-				<a class="ztr-btn ztr-btn--glow ztr-btn--lg ztr-nav__menu-cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" <?php echo ztr_track_attrs( 'cta_click', 'nav_mobile', 'Free visibility audit' ); // phpcs:ignore ?>>
+				<a class="ztr-btn ztr-btn--glow ztr-btn--lg ztr-nav__menu-cta" href="<?php echo esc_url( ztr_link( ztr_audit_url() ) ); ?>" <?php echo ztr_track_attrs( 'cta_click', 'nav_mobile', 'Free visibility audit' ); // phpcs:ignore ?>>
 					<span><?php esc_html_e( 'Get your free visibility audit', 'zero-to-rank' ); ?></span>
 					<span class="ztr-btn__arr" aria-hidden="true"><?php echo ztr_icon( 'arrow-right' ); // phpcs:ignore ?></span>
 				</a>
 			</nav>
 
 			<div class="ztr-nav__actions">
-				<a class="ztr-btn ztr-btn--glow ztr-nav__cta" href="<?php echo esc_url( ztr_audit_url() ); ?>" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'nav', 'Free audit' ); // phpcs:ignore ?>>
+				<a class="ztr-btn ztr-btn--glow ztr-nav__cta" href="<?php echo esc_url( ztr_link( ztr_audit_url() ) ); ?>" data-ztr-magnetic <?php echo ztr_track_attrs( 'cta_click', 'nav', 'Free audit' ); // phpcs:ignore ?>>
 					<span><?php esc_html_e( 'Free audit', 'zero-to-rank' ); ?></span>
 					<span class="ztr-btn__arr" aria-hidden="true"><?php echo ztr_icon( 'arrow-right' ); // phpcs:ignore ?></span>
 				</a>

@@ -19,6 +19,7 @@ function ztr_customizer_fields() {
 		'ztr_phone'           => array( __( 'Public phone number', 'zero-to-rank' ), 'text', 'sanitize_text_field' ),
 		'ztr_location'        => array( __( 'Location / address line', 'zero-to-rank' ), 'text', 'sanitize_text_field' ),
 		'ztr_area_served'     => array( __( 'Area served (schema, e.g. "United Kingdom")', 'zero-to-rank' ), 'text', 'sanitize_text_field' ),
+		'ztr_form_audit'      => array( __( 'Fluent Form ID for the audit form (0 = built-in form). Find IDs under Fluent Forms → All Forms.', 'zero-to-rank' ), 'number', 'absint' ),
 		'ztr_audit_recipient' => array( __( 'Audit requests are emailed to (defaults to the site admin email)', 'zero-to-rank' ), 'email', 'sanitize_email' ),
 		'ztr_linkedin'        => array( __( 'LinkedIn URL', 'zero-to-rank' ), 'url', 'esc_url_raw' ),
 		'ztr_x'               => array( __( 'X (Twitter) URL', 'zero-to-rank' ), 'url', 'esc_url_raw' ),

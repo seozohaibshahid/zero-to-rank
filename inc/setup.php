@@ -30,7 +30,7 @@ add_action(
  * Enqueue landing page CSS and JS.
  */
 function ztr_enqueue_assets() {
-	if ( ! ztr_is_landing() ) {
+	if ( ! ztr_has_assets() ) {
 		return;
 	}
 
@@ -93,7 +93,7 @@ add_action( 'wp_enqueue_scripts', 'ztr_enqueue_assets', 20 );
  * left alone. Disable with: add_filter( 'ztr_dequeue_theme_styles', '__return_false' );
  */
 function ztr_dequeue_theme_styles() {
-	if ( ! ztr_is_landing() || ! apply_filters( 'ztr_dequeue_theme_styles', true ) ) {
+	if ( ! ztr_has_assets() || ! apply_filters( 'ztr_dequeue_theme_styles', true ) ) {
 		return;
 	}
 
@@ -129,12 +129,12 @@ add_action( 'wp_enqueue_scripts', 'ztr_dequeue_theme_styles', 999 );
 add_action(
 	'wp',
 	function () {
-		if ( ztr_is_landing() && apply_filters( 'ztr_disable_emoji', true ) ) {
+		if ( ztr_has_assets() && apply_filters( 'ztr_disable_emoji', true ) ) {
 			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 			remove_action( 'wp_print_styles', 'print_emoji_styles' );
 		}
 		// Classic-theme global styles (theme.json presets) are not used by the landing page.
-		if ( ztr_is_landing() && ! has_blocks( get_queried_object_id() ) && ! wp_is_block_theme() ) {
+		if ( ztr_has_assets() && ! has_blocks( get_queried_object_id() ) && ! wp_is_block_theme() ) {
 			remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
 			remove_action( 'wp_footer', 'wp_enqueue_global_styles', 1 );
 			remove_action( 'wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles' );
@@ -148,7 +148,7 @@ add_action(
 add_action(
 	'wp_head',
 	function () {
-		if ( ! ztr_is_landing() ) {
+		if ( ! ztr_has_assets() ) {
 			return;
 		}
 		// Display face (hero headline, the LCP element) and body face.
@@ -173,7 +173,7 @@ add_action(
 add_filter(
 	'body_class',
 	function ( $classes ) {
-		if ( ztr_is_landing() ) {
+		if ( ztr_has_assets() ) {
 			$classes[] = 'ztr-landing';
 		}
 		return $classes;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Statement: a large point-of-view line between the results strip and services.
+ * Statement: a large point-of-view line between the logo strip and the results.
  *
  * With JS and motion allowed, animations.js splits the text into words and
  * fills them in as the reader scrolls. Without JS (or with reduced motion)
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$c = ztr_content( 'statement' );
+$c = ztr_args( 'statement', isset( $args ) ? $args : array() );
 if ( empty( $c['text'] ) ) {
 	return;
 }

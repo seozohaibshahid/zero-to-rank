@@ -23,6 +23,19 @@ const ZTR_FORM_MIN_SECONDS = 3;
 const ZTR_FORM_RATE_LIMIT = 5;
 
 /**
+ * The Fluent Form to show in the audit section: the widget's own ID, else the
+ * one set in the Customizer (the setup routine fills it in). 0 means "use the
+ * built-in form", which is also the fallback when Fluent Forms is inactive.
+ *
+ * @param int $widget_id Form ID from the widget or section args.
+ * @return int
+ */
+function ztr_audit_form_id( $widget_id = 0 ) {
+	$id = (int) $widget_id ? (int) $widget_id : (int) get_theme_mod( 'ztr_form_audit', 0 );
+	return ( $id && shortcode_exists( 'fluentform' ) ) ? $id : 0;
+}
+
+/**
  * Focus options for the select field.
  *
  * @return array

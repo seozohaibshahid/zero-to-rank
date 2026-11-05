@@ -11,21 +11,33 @@ PHP, HTML, CSS and JavaScript only — no page builder, no jQuery, no external r
 
 | # | Section | Interaction |
 |---|---------|-------------|
-| 01 | Navigation | Floating glass pill: logo left, section links in the middle (sliding indicator on hover and on the section in view), "Free audit" button right. Hides on scroll down, returns on scroll up. Full-screen dark menu on mobile (Esc to close) |
-| 02 | Hero | The blue gradient panel with the three-word headline (Found. Answered. Cited.), captions, a glass card of two real results and a bold audit CTA. Words rise out of a mask on load (CSS, first paint), the light drifts and follows the pointer, the card figures count up, and the words spread apart as the hero scrolls away. Edit `$c['hero']['words']` |
-| 03 | Ticker | A blue band of the platforms we optimise for. It drifts on its own and speeds up or reverses with scroll speed and direction. **No client logos** |
-| — | Results strip | Four real client figures (`$c['hero']['proof']`) that count up and link to their case study, with the working principles underneath |
-| — | Statement | A point-of-view line that fills in word by word as it scrolls (plain text without JS or with reduced motion). Edit `$c['statement']` |
-| 04 | Services | Bento grid: a dark feature card ("Visibility for the AI era" with SEO / AEO / GEO tiles), then one card per service with its deliverables. Cards tilt and catch a spotlight under the pointer; each CTA pre-selects the audit focus. Edit `$c['services']` (incl. `feature`) |
-| 05 | Case studies | Dark band. Three real engagements as tabs: headline metrics, AI-assistant sources from GA4 (bars grow in), and the original Search Console / GA4 screenshots as evidence. Edit `$c['results']['cases']`; images live in `assets/images/cases/` |
-| 06 | The visibility shift | Traditional search (light card) vs AI-driven discovery (dark card) |
-| 07 | Process | Dark band with five step cards and a progress line that fills as you scroll |
-| 08 | Why Zero to Rank | The argument and platform chips on the left, the differentiators as a ruled list on the right |
-| 09 | Who we help | Industry tabs (arrow-key navigation): the challenge on a dark panel, the approach beside it |
-| — | Editor content | Anything typed in the page editor renders here (only if not empty) |
-| 10 | FAQs | Intro on the left, ruled questions on the right (native `<details>`, smooth height); also output as FAQPage schema |
-| 11 | Free visibility audit | A dark CTA box that grows into place on scroll, holding the copy and the form. Inline validation, async submit, no-JS fallback, spam protection, leads stored in WP admin |
-| 12 | Footer | Dark: brand + audit button, services / explore / contact columns, and a giant "Zero to Rank" wordmark whose letters rise as the page ends |
+| 01 | Navigation | Floating glass pill (logo, section links with sliding indicator, Blog, "Free audit"). Hides on scroll down; full-screen dark menu on mobile |
+| 02 | Hero | Blue gradient panel, three-word headline, glass results card, bold CTA. Words rise out of masks, light drifts and follows the pointer, figures count up, words spread on scroll |
+| 03 | Logo strip | Real platform logos (Google, ChatGPT, Claude, Gemini, Perplexity, Maps, YouTube; Bing and Copilot as names) drifting on a plain background. **No client logos** |
+| — | Statement | Point-of-view line that fills in word by word on scroll |
+| 04 | Case studies | Three real engagements as **stacked sticky cards**: each pins under the nav and the next slides over it while the covered card sinks back. Metrics, GA4 AI-source bars, original report screenshots. CTA band after the stack |
+| 05 | Services | **Expanding panels** (SEO / AEO / GEO): the hovered or tapped panel widens to show deliverables and a pre-filled audit CTA |
+| 06 | The visibility shift | Head-to-head comparison with aligned rows and a "vs" marker; the AI column is highlighted |
+| 07 | Process | Dark band, five step cards, scroll-filled progress line |
+| 08 | Why Zero to Rank | Argument pinned left with CTA and principles; four numbered reason cards on the right |
+| 09 | Who we help | Industry tabs: challenge on a dark panel, approach beside it |
+| 10 | FAQs | Intro left, ruled questions right; FAQPage schema |
+| 11 | Free audit | Dark CTA box with the **Fluent Form** (falls back to the built-in form) and a reassurance line |
+| 12 | Footer | Dark footer with the rising "Zero to Rank" wordmark |
+| — | Mobile CTA bar | Small screens: a sticky "Free visibility audit" bar after the hero, hidden at the form |
+
+## Editing in Elementor
+
+Every section above is an Elementor widget in the **Zero to Rank** category (ZTR Hero, ZTR Logo Strip, ZTR Statement, ZTR Case Studies, ZTR Services, ZTR Visibility Shift, ZTR Process, ZTR Why Us, ZTR Who We Help, ZTR FAQ, ZTR Audit Form, ZTR Page Hero, ZTR Blog Grid). Each widget renders the theme's own template part, so the design and animations stay intact while every text, list, link and image is editable. Lists use one item per line; metric lists use `value | label | detail`.
+
+Pages built this way use the **Zero to Rank — Canvas (Elementor)** template (nav + footer around the Elementor content). On first load with Elementor active, the theme (once, version `ZTR_SETUP_VERSION`):
+
+- converts the front page from the classic landing template into an Elementor page with all the widgets (the previous template is stored in `_ztr_previous_template`),
+- creates a **Blog** page (Elementor: ZTR Page Hero + ZTR Blog Grid + ZTR Audit Form),
+- publishes one sample article marked **noindex**,
+- links the Fluent Form titled "Zero to Rank – Free Visibility Audit" (Customizer → Zero to Rank → Fluent Form ID).
+
+Any post or page can be hidden from search engines with the **Search engines → noindex** box in the editor sidebar (also removes it from the XML sitemap).
 
 **Type** (all self-hosted, Latin only): Bricolage Grotesque for display, Manrope for body text, Instrument Serif italic for emphasis inside headings (`<em>`), JetBrains Mono for small labels.
 

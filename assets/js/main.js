@@ -22,6 +22,9 @@
 	ZTR.root = root;
 	ZTR.data = window.ztrData || { i18n: {} };
 
+	/** True inside the Elementor editor preview (live edits re-render widgets). */
+	ZTR.editor = document.body.classList.contains('elementor-editor-active');
+
 	/** True when the visitor prefers reduced motion (live value). */
 	ZTR.reduced = function () {
 		return reducedQuery.matches;
@@ -147,6 +150,9 @@
 			}
 			label.textContent = open ? (ZTR.data.i18n.close || 'Close') : label.getAttribute('data-menu');
 		}
+		if (ZTR.updateStickyCta) {
+			ZTR.updateStickyCta();
+		}
 		if (ZTR.lenis) {
 			if (open) {
 				ZTR.lenis.stop();
@@ -249,7 +255,7 @@
 	 * own mask (.ztr-w) and a stagger index. Skipped with reduced motion.
 	 * ------------------------------------------------------------------ */
 	var wordEls = root.querySelectorAll('[data-ztr-words]');
-	if (!ZTR.reduced()) {
+	if (!ZTR.reduced() && !ZTR.editor) {
 		wordEls.forEach(function (el) {
 			var words = ZTR.splitWords(el, 'ztr-w');
 			words.forEach(function (w, i) {
@@ -281,7 +287,7 @@
 		window.setTimeout(done, 1400);
 	}
 	var revealEls = root.querySelectorAll('[data-ztr-reveal], [data-ztr-words]');
-	if (!('IntersectionObserver' in window) || ZTR.reduced()) {
+	if (!('IntersectionObserver' in window) || ZTR.reduced() || ZTR.editor) {
 		revealEls.forEach(function (el) {
 			el.classList.add('is-in');
 			settle(el);
@@ -303,6 +309,118 @@
 			revealIO.observe(el);
 		});
 	}
+
+	/* ---------------------------------------------------------------------
+	 * Services: expanding panels. On wide screens the hovered, focused or
+	 * tapped panel opens; the others narrow. The pointer also drives a soft
+	 * spotlight. (Small screens show every panel open, via CSS.)
+	 * ------------------------------------------------------------------ */
+	root.querySelectorAll('[data-ztr-panels]').forEach(function (group) {
+		var panels = Array.prototype.slice.call(group.querySelectorAll('[data-ztr-panel-item]'));
+		var wide = window.matchMedia('(min-width: 961px)');
+		function open(panel) {
+			panels.forEach(function (p) {
+				var on = p === panel;
+				p.classList.toggle('is-open', on);
+				var btn = p.querySelector('.ztr-panel__toggle');
+				if (btn) {
+					btn.setAttribute('aria-expanded', on || !wide.matches ? 'true' : 'false');
+				}
+			});
+		}
+		panels.forEach(function (panel) {
+			var btn = panel.querySelector('.ztr-panel__toggle');
+			panel.addEventListener('mouseenter', function () {
+				if (wide.matches) {
+					open(panel);
+				}
+			});
+			panel.addEventListener('focusin', function () {
+				if (wide.matches) {
+					open(panel);
+				}
+			});
+			if (btn) {
+				btn.addEventListener('click', function () {
+					open(panel);
+				});
+			}
+			panel.addEventListener(
+				'pointermove',
+				function (e) {
+					var r = panel.getBoundingClientRect();
+					panel.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
+					panel.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
+				},
+				{ passive: true }
+			);
+		});
+		function sync() {
+			if (!wide.matches) {
+				panels.forEach(function (p) {
+					var btn = p.querySelector('.ztr-panel__toggle');
+					if (btn) {
+						btn.setAttribute('aria-expanded', 'true');
+					}
+				});
+			} else {
+				open(group.querySelector('.ztr-panel.is-open') || panels[0]);
+			}
+		}
+		if (wide.addEventListener) {
+			wide.addEventListener('change', sync);
+		}
+		sync();
+	});
+
+	/* Case-study cards: mark as seen so their source bars grow in. */
+	root.querySelectorAll('[data-ztr-scard]').forEach(function (card) {
+		ZTR.onVisible(
+			card,
+			function () {
+				card.classList.add('is-seen');
+			},
+			{ threshold: 0.25 }
+		);
+	});
+
+	/* Mobile sticky CTA: shows after the first screen, hides while the audit
+	 * section (or the footer) is on screen, and while the menu is open. */
+	(function stickyCta() {
+		var bar = root.querySelector('[data-ztr-sticky-cta]');
+		if (!bar) {
+			return;
+		}
+		var blockers = 0;
+		var past = false;
+		function update() {
+			bar.classList.toggle('is-on', past && blockers === 0 && !(nav && nav.classList.contains('is-open')));
+		}
+		window.addEventListener(
+			'scroll',
+			function () {
+				var p = window.pageYOffset > window.innerHeight * 0.8;
+				if (p !== past) {
+					past = p;
+					update();
+				}
+			},
+			{ passive: true }
+		);
+		if ('IntersectionObserver' in window) {
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					blockers += entry.isIntersecting ? 1 : -1;
+					blockers = Math.max(0, blockers);
+				});
+				update();
+			});
+			root.querySelectorAll('#audit, .ztr-footer').forEach(function (el) {
+				io.observe(el);
+			});
+		}
+		ZTR.updateStickyCta = update;
+	})();
 
 	/* ---------------------------------------------------------------------
 	 * Count-up: figures marked [data-ztr-countup] count from zero when they
